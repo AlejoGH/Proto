@@ -7,7 +7,6 @@ package beansForTest;
 
 import contentcontroller.ContentController;
 import entidades.areas.Areas;
-import entidades.home_people.HomePeople;
 import entidades.home_people.HomePeopleFacade;
 import entidades.preocupational_test.PreocupationalFacade;
 import entidades.preocupational_test.PreocupationalTest;
@@ -23,9 +22,6 @@ import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ManagedProperty;
 import javax.faces.context.FacesContext;
 import javax.faces.bean.ViewScoped;
-import javax.inject.Inject;
-import javax.inject.Named;
-import util.Utilidades;
 
 /**
  *
@@ -41,6 +37,7 @@ public class PreocupationalBean implements Serializable {
 
     @ManagedProperty("#{constantesBean}")
     private constantes.ConstantesBean constantesBean;
+    
     @ManagedProperty("#{contentController}")
     private ContentController contentController;
     
@@ -53,8 +50,7 @@ public class PreocupationalBean implements Serializable {
 
     @PostConstruct
     public void init() {
-        System.out.println("Preocupaional creado");
-        setPreocupationalTest(new PreocupationalTest());
+        preocupationalTest = (new PreocupationalTest());
     }
 
     public void guardarInfor(Users user) {
@@ -66,7 +62,7 @@ public class PreocupationalBean implements Serializable {
         for (Areas ar : constantesBean.getAreas()) {
             if (Objects.equals(ar.getArea_id(), areaSelect)) {
                 user.setArea_id(ar);
-                System.out.println("Area" + ar.getArea_nombre());
+                break;
             }
         }
 
@@ -79,11 +75,9 @@ public class PreocupationalBean implements Serializable {
             contentController.setIsPreoupationalReady(true);
             FacesContext context = FacesContext.getCurrentInstance();
             context.addMessage(null, new FacesMessage("Successful", "Datos Guardados"));
-            //Utilidades.imprimir_msg("Bien!", "Datos Guardados");
         } else {
             FacesContext context = FacesContext.getCurrentInstance();
             context.addMessage(null, new FacesMessage("Error", "Datos No Guardados"));
-            //Utilidades.imprimir_msg("Error!", "Inconsistencia al guardar");
         }
 
     }

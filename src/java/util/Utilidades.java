@@ -9,7 +9,15 @@ public class Utilidades {
 //        PrimeFaces reqcontext = PrimeFaces.current();
 //        reqcontext.dialog().showMessageDynamic(new FacesMessage(top, msg));
         FacesContext context = FacesContext.getCurrentInstance();
-        context.addMessage(null, new FacesMessage(top,msg));
+        context.addMessage(null, new FacesMessage(top, msg));
+    }
+
+    public static void imprimir_msg_advertencia(String top, String msg) {
+        FacesContext.getCurrentInstance().addMessage(
+                null,
+                new FacesMessage(FacesMessage.SEVERITY_WARN,
+                        top,
+                        msg));
     }
 
 }

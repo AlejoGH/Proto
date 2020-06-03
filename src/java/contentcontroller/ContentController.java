@@ -13,15 +13,12 @@ import javax.ejb.EJB;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ManagedProperty;
 import javax.faces.bean.ViewScoped;
-import javax.inject.Inject;
-import javax.inject.Named;
 
 /**
  *
  * @author ncabrejo
  */
 @ViewScoped
-
 @ManagedBean(name = "contentController")
 public class ContentController implements Serializable {
 
@@ -36,7 +33,6 @@ public class ContentController implements Serializable {
 
     @PostConstruct
     public void init() {
-        System.out.println("COnteccontroleeeeerrrrrrrrrrrrrrrrrrrrrrrrrrrrrr");
         activePage = 1;
         isPreoupationalReady = preocupationalFacade.PreocupationalDone(userBean.getCurrentUser());
     }

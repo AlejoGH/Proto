@@ -5,47 +5,48 @@
       xmlns:p="http://primefaces.org/ui">
     <h:head>
         <title>Formulario</title>
-        <h:outputStylesheet library="vendor/bootstrap/scss" name="bootstrap.scss"/>
-
+        <h:outputStylesheet library="css" name="styles.css"/>
     </h:head>
-    <h:body>
-        <div class="container-fluid" align="center">
-            <div class="row main-content bg-success text-center">
-                <div class="col-md-4 text-center company__info">
-                    <span class="company__logo"><h2><span class="fa fa-android"></span></h2></span>
-                    <a href="https://fondoaccion.org/"><img src="resources/img/logofa.png" height="auto" width="100%"/></a>
-                </div>
-                <div class="col-md-8 col-xs-10 col-sm-12 login_form " style="padding-top: 50px">
-                    <div class="container-fluid">
-                        <div class="row">
-                            <h2>Iniciar Sesión</h2>
-                        </div>
+    <h:body style="height:100%;width:100%">
+        <p:growl showDetail="true" sticky="true"/>
+        <div align="center" style="top: 20%;height: 60%;  margin: 0;
+             position: absolute; background-color: cadetblue; width: 50%; left: 25%;  border-radius: 25px; border: 1px solid cadetblue;">
 
-                        <div class="row" style="padding-top: 50px">
-                            <h:form class="form-group">
+            <div class="contenedor" >
 
-                                <div class="row">
-                                    <p:inputText placeholder="Usuario" class="form__input" value="#{UserBean.userNick }"/>
-                                </div>
-                                <div class="row" style="padding-top: 30px">
-                                    <!-- <span class="fa fa-lock"></span> -->
-                                    <p:password placeholder="Contraseña" class="form__input" value="#{UserBean.userPassword}"/>                                    
-                                </div>
-                                <div class="row" style="padding-top: 30px">
-                                    <p:commandButton value="Iniciar Sesión" id="btn" class="btn" action="#{UserBean.loginpRO()}" ajax="false"/>
-                                </div>
-
-                            </h:form>
-                        </div>
-
-                        <div class="row" align="left">
-                            <p>Para informar sobre eventualidades<br/>contactar equipo de sistemas</p>
-                        </div>
+                <div class="column2" >
+                    <div >
+                        <h2>Iniciar Sesión</h2>
                     </div>
+                    <a href="https://fondoaccion.org/">
+                        <img src="resources/img/logofa.png" height="auto" width="100%"/>
+                    </a>
+                </div>
+                <div class="column2" align="center" style="background: background">
+
+                    <h:form class="form">
+                        <div >
+                            <p:inputText placeholder="Usuario" 
+                                         class="input" 
+                                         value="#{UserBean.userNick}"/>
+                        </div>
+                        <div>
+                            <!-- <span class="fa fa-lock"></span> -->
+                            <p:password placeholder="Contraseña" 
+                                        class="input" 
+                                        value="#{UserBean.userPassword}"/>                                    
+                        </div>
+                        <br/>
+                        <div >
+                            <p:commandButton value="Iniciar Sesión" 
+                                             id="btn" class="btn" 
+                                             action="#{UserBean.loginpRO()}" 
+                                             ajax="false"/>
+                        </div>
+                    </h:form>
                 </div>
             </div>
         </div>
-
     </h:body>
 </html>
 

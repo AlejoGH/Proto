@@ -24,8 +24,8 @@ import org.slf4j.LoggerFactory;
 @ManagedBean(name = "UserBean")
 public class UserBean implements Serializable {
 
-    private static final Logger LOGGER1 = LoggerFactory.getLogger(UserBean.class);//Creador de sesiones
-    public static final String HOME_PAGE_REDIRECT1 = "/secured/principal.xhtml?faces-redirect=true";//Ruta pagina de inicio de contratos
+    private static final Logger LOGGER1 = LoggerFactory.getLogger(UserBean.class);//Impresion en la consola
+    public static final String HOME_PAGE_REDIRECT1 = "/secured/principal.xhtml?faces-redirect=true";//Ruta pagina de inicio de formatos
     public static final String LOGOUT_PAGE_REDIRECT1 = "/index.xhtml?faces-redirect=true";//Ruta página de Login
     private Users currentUser = null;// Variable que almacena los datos del usuario que  inicia sesion
 
@@ -40,17 +40,15 @@ public class UserBean implements Serializable {
     //Metodo que valida los datos de un usuario y lo redirige en caso de ser exitosa la validacion de los datos
     public String loginpRO() {
         currentUser = (find(userNick, userPassword));//Usuario logueado
-        if (getCurrentUser() != null) {
+        if (currentUser != null) {
             LOGGER1.info("Bienvenido '{}'", userNick);
             // Que hace referencia a los conratos en ejecucion y se  injecta en el contexto web el valor
             return "/secured/principal.xhtml";// Redireccion
         } else {
             LOGGER1.info("Credenciales inválidas '{}'", userNick);
-            FacesContext.getCurrentInstance().addMessage(
-                    null,
-                    new FacesMessage(FacesMessage.SEVERITY_WARN,
-                            "Autenticación fallida",
-                            "Credenciales inválidas o desconocidas."));
+            
+            util.Utilidades.imprimir_msg_advertencia("Credenciales inválidas",
+                    "Usuario o contraseña incorrectos");
             return null;
         }
     }
@@ -60,10 +58,6 @@ public class UserBean implements Serializable {
         Users usuarioLogin;
         usuarioLogin = loginFacade.getUserByNick(userId);//Se consulta la base de datos para obtener el usuario    
         if (usuarioLogin != null) {
-            //Si el usuario existe se comparan las contrasenias. Como estan encriptadas se utiliza una clase intermedia
-            //  System.out.println("User" + usuarioLogin.getName());
-
-             
             if (usuarioLogin.getPassword() != null && !BCrypt.checkpw(password, usuarioLogin.getPassword())) {
                 return null;//Si la constrasenia no es igual se retorna  un  nulo
             }

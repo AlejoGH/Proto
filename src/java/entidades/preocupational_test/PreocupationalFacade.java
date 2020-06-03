@@ -39,12 +39,10 @@ public class PreocupationalFacade {
     }
 
     public boolean PreocupationalDone(Users user) {
-
         try {
             HashMap hm = new HashMap();
             hm.put("user", user);
             List<PreocupationalTest> test = (List<PreocupationalTest>) em.selectNameQueryParamList(hm, "getListPTByUser");
-//            System.out.println("size:" + test.size() + " ////////////////////////////////////////////");
             if(test == null)
                 return false;
             return !test.isEmpty();

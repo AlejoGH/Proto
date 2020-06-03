@@ -29,7 +29,6 @@ public class HomePeopleBean implements Serializable {
 
     @PostConstruct
     public void init() {
-        System.out.println("Newwwww");
     }
 
     public void saveUpdate(HomePeople homePeople) {
