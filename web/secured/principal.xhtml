@@ -7,124 +7,116 @@
 
     <h:head>
         <title>Bienvenido</title>
-
-
-               <h:outputStylesheet library="vendor/bootstrap/scss" name="bootstrap.scss"/>
-
-        <h:outputStylesheet library="vendor/fontawesome-free/css" name="all.min.css"/>
-        <link href="https://fonts.googleapis.com/css?family=Nunito:200,200i,300,300i,400,400i,600,600i,700,700i,800,800i,900,900i" rel="stylesheet"/>
-        <!-- Bootstrap core JavaScript-->
-        <h:outputScript library="vendor/jquery" name="jquery.min.js" />
-        <h:outputScript library="vendor/bootstrap/js" name="bootstrap.bundle.min.js"/>
-
-        <!-- Core plugin JavaScript-->
-        <h:outputScript library="vendor/jquery-easing"  name="jquery.easing.min.js"/>
-
-        <!-- Custom scripts for all pages-->
-        <h:outputScript library="js"  name="sb-admin-2.min.js"/>
-
-        <!-- Page level plugins -->
-        <h:outputScript  library="vendor/chart.js"  name="Chart.min.js"/>
-
-        <!-- Page level custom scripts -->
-        <h:outputScript  library="js/demo"  name="chart-area-demo.js"/>
-        <h:outputScript  library="js/demo"  name="chart-pie-demo.js"/>
-
+        <h:outputStylesheet library="css" name="styles.css"/>
     </h:head>
 
-    <h:body id="page-top">
+    <h:body>
+        <input type="checkbox" id="check" style="background-color: #01d14e"/>
+        <label for="check" style="position: absolute">
+            <i class="fa fa-bars" id="btns"></i>
+            <i class="fa fa-times" id="cancela"></i>
+        </label>
+        <div class="sidebar" id="sidebar">
+            <header><i class="fa fa-heartbeat"/> Menú </header>
+
+            <h:form rendered="#{contentController.isPreoupationalReady}">
+                <ul >
+                    <li>
+                    <p:commandButton icon="fa fa-address-card" class="btn-sidebar" action="#{contentController.changeActivePage(1)}" ajax="false" value="Mi Perfil"/>
+                    </li>
+                    <li>
+                    <p:commandButton icon="fa fa-calendar-check-o" action="#{contentController.changeActivePage(2)}" value="Registro Diario" class="btn-sidebar" ajax="false"/>
+                    </li>
+                    <li>
+                    <p:commandButton icon="fa fa-home" action="#{contentController.changeActivePage(3)}" value="Cont. Internos" class="btn-sidebar" ajax="false"/>
+                    </li>
+                    <li>
+                    <p:commandButton icon="fa fa-bus" action="#{contentController.changeActivePage(4)}" value="Cont. Externos" class="btn-sidebar" ajax="false"/>
+                    </li>
+                    <li>
+                    <p:commandButton icon="fa fa-user-plus" action="#{contentController.changeActivePage(5) }" value="Crear Usuarios" class="btn-sidebar" ajax="false" rendered="#{UserBean.currentUser.rol_id.rol_id == 1}"/>
+                    </li>
+                    <li>
+                    <p:commandButton icon="fa fa-bar-chart" action="#{contentController.changeActivePage(6)}" value="Reportes" class="btn-sidebar" ajax="false" rendered="#{UserBean.currentUser.rol_id.rol_id == 1}"/>
+                    </li>
+                    <li>
+                    <p:commandButton action="#{UserBean.logout()}" value="Salir" class="btn-sidebar" ajax="true"/>
+                    </li>
+                </ul>
+            </h:form>
+
+        </div>
+
         <!-- Page Wrapper -->
-        <div id="wrapper" jsf:id="foo">
+        <div id="tablero" jsf:id="tablero">
             <!-- Sidebar -->
-            <ul class="navbar-nav bg-gradient-primary sidebar sidebar-dark accordion" id="accordionSidebar" >
 
-                <a class="sidebar-brand d-flex align-items-center justify-content-center" href="#">
-                    <div class="sidebar-brand-icon rotate-n-15">
-                        <i class="fas fa-laugh-wink"></i>
-                    </div>
-                    <div class="sidebar-brand-text mx-3"> Menú</div>
-                </a>
+            <!-- Main Content -->
+            <div id="content">
 
-                <h:form rendered="#{contentController.isPreoupationalReady}">
-                    <p:commandButton action="#{contentController.changeActivePage(1)}" ajax="false" value="Mi Perfil" class="btn2"/>
-                    <hr class="sidebar-divider my-0"/>
-                    <p:commandButton action="#{contentController.changeActivePage(2)}" value="Registro Diario" class="btn2" ajax="false"/>
-                    <hr class="sidebar-divider my-0"/>
-                    <p:commandButton action="#{contentController.changeActivePage(3)}" value="Contactos Internos" class="btn2" ajax="false"/>
-                    <hr class="sidebar-divider my-0"/>
-                    <p:commandButton action="#{contentController.changeActivePage(4)}" value="Contactos Externos" class="btn2" ajax="false"/>
-                    <hr class="sidebar-divider my-0"/>
-                    <p:commandButton action="#{contentController.changeActivePage(5) }" value="Crear Usuarios" class="btn2" ajax="false" rendered="#{UserBean.currentUser.rol_id.rol_id == 1}"/>
-                    <hr class="sidebar-divider my-0"/>
-                    <p:commandButton action="#{contentController.changeActivePage(6)}" value="Reportes" class="btn2" ajax="false" rendered="#{UserBean.currentUser.rol_id.rol_id == 1}"/>
-                    <hr class="sidebar-divider my-0"/>
-                    <p:commandButton action="#{UserBean.logout()}" value="Salir" class="btn2" ajax="true"/>
-                </h:form>
-
-            </ul>
-
-
-            <div id="content-wrapper" class="d-flex flex-column">
-
-                <!-- Main Content -->
-                <div id="content">
-
-                    <!-- Topbar -->
-                    <nav class="navbar navbar-expand navbar-light bg-white topbar mb-4 static-top shadow">
-                        Encuesta Salud Fondo Acción
-                    </nav>
-
-
+                <!-- Topbar -->
+                <p:panel header="Encuesta Salud Fondo Acción">
                     <h:form id = "Pre-ocupacional" rendered="#{!contentController.isPreoupationalReady}">
                         <p:growl id="growl" showDetail="true" sticky="true" />  
-                        <div class="container-fluid">
-                            <!-- Page Heading -->
-                            <div class="d-sm-flex align-items-center justify-content-between mb-4">
-                                <h:outputText value="Encuesta Pre-Ocupacional"/>                            
-                            </div>
-                        </div>
-
+                        <h3><h:outputText value="Encuesta Condiciones de Salud"/></h3>
                         <p:panelGrid columns="4"  style="width: 100%">
                             <p:outputLabel value="Nombre"/>
-                            <p:inputText value="#{UserBean.currentUser.name}"/>
+                            <p:inputText value="#{UserBean.currentUser.name}" style="width: 100%"/>
                             <p:outputLabel value="Cargo"/>
-                            <p:inputText value="#{UserBean.currentUser.position}"/>
+                            <p:inputText value="#{UserBean.currentUser.position}" style="width: 100%"/>
                             <p:outputLabel value="Documento"/>
-                            <p:inputText value="#{UserBean.currentUser.cc}"/>
+                            <p:inputText value="#{UserBean.currentUser.cc}" style="width: 100%"/>
                             <p:outputLabel value="Área"/>
-                            <h:selectOneMenu  value="#{PreocupationalBean.areaSelect}">
+                            <h:selectOneMenu  value="#{PreocupationalBean.areaSelect}" style="width: 100%">
                                 <f:selectItems value="#{constantesBean.areas}" var="areaa" itemLabel="#{areaa.area_nombre}" itemValue="#{areaa.area_id}" />
                             </h:selectOneMenu>
 
                             <p:outputLabel value="Celular"/>
-                            <p:inputText value="#{UserBean.currentUser.number}"/>
+                            <p:inputText value="#{UserBean.currentUser.number}" style="width: 100%"/>
                             <p:outputLabel value="Dirección"/>
-                            <p:inputText value="#{UserBean.currentUser.adress}"/>
+                            <p:inputText value="#{UserBean.currentUser.adress}" style="width: 100%"/>
                         </p:panelGrid>
-                        <hr class="sidebar-divider my-0"/>
+                        <hr/>
                         <div  style="width: 100%" align="center">
-                            <p:outputLabel value="Personas con usted en casa"/>
-                            <p:dataTable reflow="true" emptyMessage="No ha agregado ninguno" editable="true"  value="#{UserBean.currentUser.homePeoples}" var="familiar" id="familiars">   
+                            <p:outputLabel value="Personas con usted en casa" style="font-size: 20px"/>
+                            <p:dataTable reflow="true" 
+                                         emptyMessage="No ha agregado ningún integrante" 
+                                         editable="true"  
+                                         value="#{UserBean.currentUser.homePeoples}" 
+                                         var="familiar" 
+                                         id="familiars">   
 
-                                <p:ajax event="rowEdit" update="familiars Pre-ocupacional:growl" listener="#{HomePeopleBean.saveUpdate(familiar)}" />
+                                <p:ajax event="rowEdit" 
+                                        update="familiars Pre-ocupacional:growl" 
+                                        listener="#{HomePeopleBean.saveUpdate(familiar)}" />
                                 <p:ajax event="rowEditCancel" update="familiars" />
 
                                 <p:column headerText="Nombre">
                                     <p:cellEditor>
-                                        <f:facet name="output"><p:outputLabel value="#{familiar.home_people_name}"/></f:facet>
-                                        <f:facet name="input"><p:inputText value="#{familiar.home_people_name}"/></f:facet>
+                                        <f:facet name="output">
+                                            <p:outputLabel value="#{familiar.home_people_name}"/>
+                                        </f:facet>
+                                        <f:facet name="input">
+                                            <p:inputText value="#{familiar.home_people_name}"/>
+                                        </f:facet>
                                     </p:cellEditor>                                    
                                 </p:column>
 
-                                <p:column headerText="Marque Sí es mayor de 60 años,  presencia de antecedentes de enfermedades crónicas ó  es menor de 18 años ">
+                                <p:column headerText="Marque Sí es mayor de 60 años, 
+                                          presencia de antecedentes de enfermedades crónicas ó 
+                                          es menor de 18 años " style="text-align: center">
                                     <p:cellEditor>
-                                        <f:facet name="output"><p:selectBooleanCheckbox value="#{familiar.home_people_age}" disabled="true"/></f:facet>
-                                        <f:facet name="input"><p:selectBooleanCheckbox value="#{familiar.home_people_age}" /></f:facet>
+                                        <f:facet name="output">
+                                            <p:selectBooleanCheckbox value="#{familiar.home_people_age}" disabled="true"/>
+                                        </f:facet>
+                                        <f:facet name="input">
+                                            <p:selectBooleanCheckbox value="#{familiar.home_people_age}" />
+                                        </f:facet>
                                     </p:cellEditor>           
 
                                 </p:column>
 
-                                <p:column headerText="EPS a la que esta afiliado ">
+                                <p:column headerText="EPS a la que está afiliado ">
                                     <p:cellEditor>
                                         <f:facet name="output"> <p:outputLabel value="#{familiar.home_people_eps}"/></f:facet>
                                         <f:facet name="input"> <p:inputText value="#{familiar.home_people_eps}"/></f:facet>
@@ -212,8 +204,8 @@
                             <p:panelGrid columns="2" style="width: 100%">
                                 <p:outputLabel value="En caso que presente otra enfermedad que no esté descrita, informe cuál:" />
                                 <p:inputText style="width: 100%" value="#{PreocupationalBean.preocupationalTest.preocupational_test_otros_enfermedad}"/>
-                                <p:outputLabel value="Medicamentos que está tomando actualmente:"/>
-                                <p:inputText value="#{PreocupationalBean.preocupationalTest.preocupational_test_medicamentos}"/>
+                                <p:outputLabel value="Medicamentos que está tomando actualmente:" style="width: 100%"/>
+                                <p:inputText value="#{PreocupationalBean.preocupationalTest.preocupational_test_medicamentos}" style="width: 100%"/>
                             </p:panelGrid>
                             <hr class="sidebar-divider my-0"/>
 
@@ -293,452 +285,453 @@
                             <br/>
                             <p:commandButton value="ENVIAR INFORMACIÓN" class="btn" action="#{PreocupationalBean.guardarInfor(UserBean.currentUser)}" ajax="false"/>
                         </div>
-
                     </h:form>
+                </p:panel>
 
-                    <h:form id = "MiPerfil" rendered="#{contentController.activePage == 1 and contentController.isPreoupationalReady}">
-                        <div class="container-fluid">
-                            <!-- Page Heading -->
-                            <div class="d-sm-flex align-items-center justify-content-between mb-4">
-                                <h:outputText value="Mi Perfil"/>                            
-                            </div>
-                            <p:growl id="growl1" showDetail="true" sticky="true" />  
-                            <h1><p:outputLabel value="#{UserBean.currentUser.name}" style="font-weight: bold; color: #000; padding-bottom: 15px"/></h1>
-                            <hr class="sidebar-divider my-0"/>
-                            <h2>Datos personales</h2>
-                            <p:panelGrid columns="4"  style="width: 100%">
-                                <p:outputLabel value="Cargo"/>
-                                <p:inputText value="#{UserBean.currentUser.position}"/>
-                                <p:outputLabel value="Documento"/>
-                                <p:inputText value="#{UserBean.currentUser.cc}"/>
-                                <p:outputLabel value="Área"/>
-                                <p:outputLabel value="#{UserBean.currentUser.area_id.area_nombre}"/>
-                                <p:outputLabel value="Celular"/>
-                                <p:inputText value="#{UserBean.currentUser.number}"/>
-                                <p:outputLabel value="Dirección"/>
-                                <p:inputText value="#{UserBean.currentUser.adress}"/>
-                            </p:panelGrid>
 
-                            <hr class="sidebar-divider my-0" />
-                            <h2 style="padding-top: 50px">Personas con usted en casa</h2>
-                            <p:outputLabel value="Personas con usted en casa"/>
-                            <p:dataTable emptyMessage="No ha agregado ninguno" editable="true"  value="#{UserBean.currentUser.homePeoples}" var="familiar" id="familiars">   
-
-                                <p:ajax event="rowEdit" update="familiars MiPerfil:growl1" listener="#{HomePeopleBean.saveUpdate(familiar)}" />
-                                <p:ajax event="rowEditCancel" update="familiars" />
-
-                                <p:column headerText="Nombre">
-                                    <p:cellEditor>
-                                        <f:facet name="output"><p:outputLabel value="#{familiar.home_people_name}"/></f:facet>
-                                        <f:facet name="input"><p:inputText value="#{familiar.home_people_name}"/></f:facet>
-                                    </p:cellEditor>                                    
-                                </p:column>
-
-                                <p:column headerText="Marque Sí es  mayor de 60 años,  presencia de antecedentes de enfermedades crónicas ó  NNA > de 18 años ">
-                                    <p:cellEditor>
-                                        <f:facet name="output"><p:selectBooleanCheckbox value="#{familiar.home_people_age}" disabled="true"/></f:facet>
-                                        <f:facet name="input"><p:selectBooleanCheckbox value="#{familiar.home_people_age}" /></f:facet>
-                                    </p:cellEditor> 
-                                </p:column>
-
-                                <p:column headerText="EPS a la que esta afiliado ">
-                                    <p:cellEditor>
-                                        <f:facet name="output"> <p:outputLabel value="#{familiar.home_people_eps}"/></f:facet>
-                                        <f:facet name="input"> <p:inputText value="#{familiar.home_people_eps}"/></f:facet>
-                                    </p:cellEditor>                                       
-                                </p:column>
-
-                                <p:column headerText="ARL  (Deje en blanco si no aplica)  ">
-                                    <p:cellEditor>
-                                        <f:facet name="output"> <p:outputLabel value="#{familiar.home_people_arl}"/></f:facet>
-                                        <f:facet name="input"> <p:inputText value="#{familiar.home_people_arl}"/></f:facet>
-                                    </p:cellEditor>
-                                </p:column>
-
-                                <p:column style="width:35px">
-                                    <p:rowEditor />
-                                </p:column>
-
-                                <p:column style="width:50px">
-                                    <p:commandButton value="-" action="#{HomePeopleBean.deleteFamiliar(familiar, UserBean.currentUser)}" update="familiars :MiPerfil:growl1"/>
-                                </p:column>
-                                <f:facet name="footer">
-                                    <p:commandButton value="Agregar nuevo integrate" class="btn" action="#{HomePeopleBean.addNewFamiliar(UserBean.currentUser)}" update="familiars :MiPerfil:growl1"/>
-                                </f:facet>
-                            </p:dataTable>
-                            <p:commandButton value="Guardar cambios" class="btn" update="MiPerfil" style="width: 10% !important" action="#{miProfileBean.guardarInfor(UserBean.currentUser)}" />
+                <h:form id = "MiPerfil" rendered="#{contentController.activePage == 1 and contentController.isPreoupationalReady}">
+                    <div class="container-fluid">
+                        <!-- Page Heading -->
+                        <div class="d-sm-flex align-items-center justify-content-between mb-4">
+                            <h:outputText value="Mi Perfil"/>                            
                         </div>
-                    </h:form>
+                        <p:growl id="growl1" showDetail="true" sticky="true" />  
+                        <h1><p:outputLabel value="#{UserBean.currentUser.name}" style="font-weight: bold; color: #000; padding-bottom: 15px"/></h1>
+                        <hr class="sidebar-divider my-0"/>
+                        <h2>Datos personales</h2>
+                        <p:panelGrid columns="4"  style="width: 100%">
+                            <p:outputLabel value="Cargo"/>
+                            <p:inputText value="#{UserBean.currentUser.position}"/>
+                            <p:outputLabel value="Documento"/>
+                            <p:inputText value="#{UserBean.currentUser.cc}"/>
+                            <p:outputLabel value="Área"/>
+                            <p:outputLabel value="#{UserBean.currentUser.area_id.area_nombre}"/>
+                            <p:outputLabel value="Celular"/>
+                            <p:inputText value="#{UserBean.currentUser.number}"/>
+                            <p:outputLabel value="Dirección"/>
+                            <p:inputText value="#{UserBean.currentUser.adress}"/>
+                        </p:panelGrid>
 
-                    <h:form id = "RegDiario" rendered="#{contentController.activePage == 2}">
-                        <div class="container-fluid">
-                            <!-- Page Heading -->
-                            <div class="d-sm-flex align-items-center justify-content-between mb-4">
-                                <h2><h:outputText value="Reporte Diario de Condiciones de Salud" style="font-weight:bold"/></h2>
-                            </div>
-                            <p:outputLabel value="#{UserBean.currentUser.name}" style="font-weight:bold; color: #000"/>
-                            <p:growl id="growl2" showDetail="true" sticky="true" />  
-                            <p:commandButton value="Agregar Registro" action="#{dailyReportBean.addNewDailyReport(UserBean.currentUser)}" update="reports RegDiario:growl2"/>
-                            <p:dataTable value="#{UserBean.currentUser.dailyReports}" paginator="true" rows="10" sortBy="#{dailyReport.daily_report_date}" sortOrder="descending" emptyMessage="No hay registros" editable="true" var="dailyReport" id="reports">
+                        <hr class="sidebar-divider my-0" />
+                        <h2 style="padding-top: 50px">Personas con usted en casa</h2>
+                        <p:outputLabel value="Personas con usted en casa"/>
+                        <p:dataTable emptyMessage="No ha agregado ninguno" editable="true"  value="#{UserBean.currentUser.homePeoples}" var="familiar" id="familiars">   
 
+                            <p:ajax event="rowEdit" update="familiars MiPerfil:growl1" listener="#{HomePeopleBean.saveUpdate(familiar)}" />
+                            <p:ajax event="rowEditCancel" update="familiars" />
 
-                                <p:ajax event="rowEdit" update="reports RegDiario:growl2" listener="#{dailyReportBean.saveUpdate(dailyReport)}" />
-                                <p:ajax event="rowEditCancel" update="reports" />
-
-
-                                <p:columnGroup type="header" >
-                                    <p:row>
-                                        <p:column colspan="8" headerText="Control de Temperatura y Síntomas:  Marque si ha presentado alguno de estos síntomas en las últimas 24 horas." />
-                                        <p:column colspan="3" headerText="Marque a quien informó estos síntomas" />
-                                    </p:row>
-
-                                    <p:row>
-                                        <p:column headerText="Fecha"/>
-                                        <p:column headerText="Temperatura"/>
-                                        <p:column headerText="Tos"/>
-                                        <p:column headerText="Cansancio extremo"/>
-                                        <p:column headerText="Secreción nasal"/>
-                                        <p:column headerText="Dificultad para respirar"/>
-                                        <p:column headerText="Dolor Garganta"/>
-                                        <p:column headerText="Otros Síntomas"/>
-                                        <p:column headerText="CoronaAPP"/>
-                                        <p:column headerText="EPS"/>
-                                        <p:column headerText="Secretaría de Salud"/>
-                                        <p:column headerText=""/>
-                                    </p:row>
-                                </p:columnGroup>
-
-
-                                <p:column headerText="Fecha" >
-                                    <p:cellEditor>
-                                        <f:facet name="output"> 
-                                            <p:outputLabel value="#{dailyReport.daily_report_date.date} / #{dailyReport.daily_report_date.month+1} / #{dailyReport.daily_report_date.year+1900}"/>
-                                            <p:outputLabel value="#{dailyReport.daily_report_date.hours} : #{dailyReport.daily_report_date.minutes} :#{dailyReport.daily_report_date.seconds}"/>    
-                                        </f:facet>
-                                        <f:facet name="input"> <p:outputLabel value="#{dailyReport.daily_report_date}"/></f:facet>
-                                    </p:cellEditor>
-                                </p:column>
-                                <p:column headerText="Temperatura">
-                                    <p:cellEditor>
-                                        <f:facet name="output"> <p:outputLabel value="#{dailyReport.daily_report_user_fever}"/></f:facet>
-                                        <f:facet name="input"> <p:inputText value="#{dailyReport.daily_report_user_fever}"/></f:facet>
-                                    </p:cellEditor>
-
-                                </p:column>
-                                <p:column headerText="Tos">
-                                    <p:cellEditor>
-                                        <f:facet name="output"> <p:selectBooleanCheckbox value="#{dailyReport.daily_report_user_tos}" disabled="true"/></f:facet>
-                                        <f:facet name="input"> <p:selectBooleanCheckbox value="#{dailyReport.daily_report_user_tos}" /></f:facet>
-                                    </p:cellEditor>
-                                </p:column>
-                                <p:column headerText="Cansancio extremo">
-                                    <p:cellEditor>
-                                        <f:facet name="output"> <p:selectBooleanCheckbox value="#{dailyReport.daily_report_user_casancio}" disabled="true"/></f:facet>
-                                        <f:facet name="input"> <p:selectBooleanCheckbox value="#{dailyReport.daily_report_user_casancio}" /></f:facet>
-                                    </p:cellEditor>
-
-                                </p:column>
-                                <p:column headerText="Secreción nasal">
-                                    <p:cellEditor>
-                                        <f:facet name="output"> <p:selectBooleanCheckbox value="#{dailyReport.daily_report_user_secrecion_nasal}" disabled="true"/></f:facet>
-                                        <f:facet name="input"> <p:selectBooleanCheckbox value="#{dailyReport.daily_report_user_secrecion_nasal}" /></f:facet>
-                                    </p:cellEditor>
-
-                                </p:column>
-                                <p:column headerText="Dificultad para respirar">
-                                    <p:cellEditor>
-                                        <f:facet name="output"> <p:selectBooleanCheckbox value="#{dailyReport.daily_report_user_dificultad_respirar}" disabled="true"/></f:facet>
-                                        <f:facet name="input"> <p:selectBooleanCheckbox value="#{dailyReport.daily_report_user_dificultad_respirar}" /></f:facet>
-                                    </p:cellEditor>
-                                </p:column>
-                                <p:column headerText="Dolor Garganta">
-                                    <p:cellEditor>
-                                        <f:facet name="output"> <p:selectBooleanCheckbox value="#{dailyReport.daily_report_user_dolor_garganta}" disabled="true"/></f:facet>
-                                        <f:facet name="input"> <p:selectBooleanCheckbox value="#{dailyReport.daily_report_user_dolor_garganta}" /></f:facet>
-                                    </p:cellEditor>
-                                </p:column>
-                                <p:column headerText="Otros Síntomas">
-                                    <p:cellEditor>
-                                        <f:facet name="output"> <p:outputLabel value="#{dailyReport.daily_report_user_otros_sintomas}"/></f:facet>
-                                        <f:facet name="input"> <p:inputText value="#{dailyReport.daily_report_user_otros_sintomas}"/></f:facet>
-                                    </p:cellEditor>
-                                </p:column>
-                                <p:column headerText="CoronaAPP">
-                                    <p:cellEditor>
-                                        <f:facet name="output"> <p:selectBooleanCheckbox value="#{dailyReport.daily_report_user_corona_advice}" disabled="true"/></f:facet>
-                                        <f:facet name="input"> <p:selectBooleanCheckbox value="#{dailyReport.daily_report_user_corona_advice}" /></f:facet>
-                                    </p:cellEditor>
-                                </p:column>
-                                <p:column headerText="EPS">
-                                    <p:cellEditor>
-                                        <f:facet name="output"> <p:selectBooleanCheckbox value="#{dailyReport.daily_report_user_eps_advice}" disabled="true"/></f:facet>
-                                        <f:facet name="input"> <p:selectBooleanCheckbox value="#{dailyReport.daily_report_user_eps_advice}" /></f:facet>
-                                    </p:cellEditor>
-                                </p:column>
-                                <p:column headerText="Secretaría de Salud">
-                                    <p:cellEditor>
-                                        <f:facet name="output"> <p:selectBooleanCheckbox value="#{dailyReport.daily_report_user_secretaria_advice}" disabled="true"/></f:facet>
-                                        <f:facet name="input"> <p:selectBooleanCheckbox value="#{dailyReport.daily_report_user_secretaria_advice}" /></f:facet>
-                                    </p:cellEditor>
-                                </p:column>
-                                <p:column style="width:35px">
-                                    <p:rowEditor />
-                                </p:column>
-                            </p:dataTable>
-
-                        </div>
-                    </h:form>
-
-                    <h:form id = "ContInterno" rendered="#{contentController.activePage == 3}">
-                        <div class="container-fluid">
-                            <!-- Page Heading -->
-                            <b>Objetivo:</b> Registrar  las personas con las que tiene contacto durante la cuarentena para establecer el nexo epidemiológico en caso de enfermedad por el COVID 19
-                            <div style="padding-top: 30px">
-                                <p:panelGrid>
-                                    <h3 align="center"><p:outputLabel value="Definiciones"/></h3>
-                                    <p:outputLabel value="Contacto: es la interaccion  entre personas en un espacio de 2 metros o menos de distancia, en un espacio o en el área  durante un tiempo mayor a 15 minutos, o contacto directo con secreciones de un caso probable o confirmado  de enfermedad por COVID 19"/>
-                                    <p:outputLabel value="Registro de Contactos Internos
-                                                   Objetivo: El registro de  los contactos  que usted ha tenido  durante la cuarentena,  tiene como objetivo establecer el nexo epidemiológico en caso de enfermedad por COVID 19
-                                                   Definiciones:
-                                                   Contacto: es la interacción  entre personas  en un espacio de 2 metros o menos de distancia durante un tiempo mayor a 15 minutos y /o contacto con secreciones de un caso probable o confirmado de  enfermedad por COVID 19
-                                                   Medidas de Bioseguridad: son las acciones de protección que debemos practicar para prevenir el contagio tales como: lavado de manos, uso de tapabocas, limpieza y desinfección de artículos y superficies, lavado de ropa de calle, desinfección de calzado etc. 
-                                                   Contacto Interno: se refiere a las personas que están con usted en casa durante el periodo de emergencia sanitaria
-                                                   "/>
-                                </p:panelGrid>
-                            </div>
-                            <div class="d-sm-flex align-items-center justify-content-between mb-4">
-
-                                <h2><h:outputText value="Contacto Interno"/></h2>
-                                <h4>Registre la temperatura y marque los síntomas que haya presentado su contacto en las últimas 24 horas</h4>
-                            </div>
-                        </div>
-                        <p:growl id="growl2" showDetail="true" sticky="true" />  
-
-
-                        <p:dataTable value="#{UserBean.currentUser.internalContacts}" style="padding-top: 30px" var="internal" editable="true" id="tbCi">
-
-                            <p:ajax event="rowEdit" update="ContInterno:growl2 tbCi" listener="#{InternalContactBean.saveUpdate(internal, UserBean.currentUser)}" />
-                            <p:ajax event="rowEditCancel" update="ContInterno" />
-
-                            <p:column headerText="Fecha">
+                            <p:column headerText="Nombre">
                                 <p:cellEditor>
-                                    <f:facet name="output"> <p:outputLabel value="#{internal.internal_contact_date}"/></f:facet>
-                                    <f:facet name="input"> <p:outputLabel value="#{internal.internal_contact_date}"/></f:facet>
-                                </p:cellEditor>
+                                    <f:facet name="output"><p:outputLabel value="#{familiar.home_people_name}"/></f:facet>
+                                    <f:facet name="input"><p:inputText value="#{familiar.home_people_name}"/></f:facet>
+                                </p:cellEditor>                                    
                             </p:column>
-                            <p:column headerText="Nombre Contacto">
+
+                            <p:column headerText="Marque Sí es  mayor de 60 años,  presencia de antecedentes de enfermedades crónicas ó  NNA > de 18 años ">
                                 <p:cellEditor>
-                                    <f:facet name="output"> <p:outputLabel value="#{internal.internal_contact_home_people_id.home_people_name}"/></f:facet>
-                                    <f:facet name="input">
-                                        <h:selectOneMenu value="#{InternalContactBean.home_people_id}">
-                                            <f:selectItems var="homepeople" value="#{UserBean.currentUser.homePeoples}" itemLabel="#{homepeople.home_people_name}" itemValue="#{homepeople.home_people_id}"/>
-                                        </h:selectOneMenu>
-                                    </f:facet>
-                                </p:cellEditor>
-                            </p:column>
-                            <p:column headerText="Temperatura en °C">
-                                <p:cellEditor>
-                                    <f:facet name="output"> <p:outputLabel value="#{internal.internal_contact_fever}"/></f:facet>
-                                    <f:facet name="input"> <p:inputText value="#{internal.internal_contact_fever}"/></f:facet>
+                                    <f:facet name="output"><p:selectBooleanCheckbox value="#{familiar.home_people_age}" disabled="true"/></f:facet>
+                                    <f:facet name="input"><p:selectBooleanCheckbox value="#{familiar.home_people_age}" /></f:facet>
                                 </p:cellEditor> 
+                            </p:column>
+
+                            <p:column headerText="EPS a la que esta afiliado ">
+                                <p:cellEditor>
+                                    <f:facet name="output"> <p:outputLabel value="#{familiar.home_people_eps}"/></f:facet>
+                                    <f:facet name="input"> <p:inputText value="#{familiar.home_people_eps}"/></f:facet>
+                                </p:cellEditor>                                       
+                            </p:column>
+
+                            <p:column headerText="ARL  (Deje en blanco si no aplica)  ">
+                                <p:cellEditor>
+                                    <f:facet name="output"> <p:outputLabel value="#{familiar.home_people_arl}"/></f:facet>
+                                    <f:facet name="input"> <p:inputText value="#{familiar.home_people_arl}"/></f:facet>
+                                </p:cellEditor>
+                            </p:column>
+
+                            <p:column style="width:35px">
+                                <p:rowEditor />
+                            </p:column>
+
+                            <p:column style="width:50px">
+                                <p:commandButton value="-" action="#{HomePeopleBean.deleteFamiliar(familiar, UserBean.currentUser)}" update="familiars :MiPerfil:growl1"/>
+                            </p:column>
+                            <f:facet name="footer">
+                                <p:commandButton value="Agregar nuevo integrate" class="btn" action="#{HomePeopleBean.addNewFamiliar(UserBean.currentUser)}" update="familiars :MiPerfil:growl1"/>
+                            </f:facet>
+                        </p:dataTable>
+                        <p:commandButton value="Guardar cambios" class="btn" update="MiPerfil" style="width: 10% !important" action="#{miProfileBean.guardarInfor(UserBean.currentUser)}" />
+                    </div>
+                </h:form>
+
+                <h:form id = "RegDiario" rendered="#{contentController.activePage == 2}">
+                    <div class="container-fluid">
+                        <!-- Page Heading -->
+                        <div class="d-sm-flex align-items-center justify-content-between mb-4">
+                            <h2><h:outputText value="Reporte Diario de Condiciones de Salud" style="font-weight:bold"/></h2>
+                        </div>
+                        <p:outputLabel value="#{UserBean.currentUser.name}" style="font-weight:bold; color: #000"/>
+                        <p:growl id="growl2" showDetail="true" sticky="true" />  
+                        <p:commandButton value="Agregar Registro" action="#{dailyReportBean.addNewDailyReport(UserBean.currentUser)}" update="reports RegDiario:growl2"/>
+                        <p:dataTable value="#{UserBean.currentUser.dailyReports}" paginator="true" rows="10" sortBy="#{dailyReport.daily_report_date}" sortOrder="descending" emptyMessage="No hay registros" editable="true" var="dailyReport" id="reports">
+
+
+                            <p:ajax event="rowEdit" update="reports RegDiario:growl2" listener="#{dailyReportBean.saveUpdate(dailyReport)}" />
+                            <p:ajax event="rowEditCancel" update="reports" />
+
+
+                            <p:columnGroup type="header" >
+                                <p:row>
+                                    <p:column colspan="8" headerText="Control de Temperatura y Síntomas:  Marque si ha presentado alguno de estos síntomas en las últimas 24 horas." />
+                                    <p:column colspan="3" headerText="Marque a quien informó estos síntomas" />
+                                </p:row>
+
+                                <p:row>
+                                    <p:column headerText="Fecha"/>
+                                    <p:column headerText="Temperatura"/>
+                                    <p:column headerText="Tos"/>
+                                    <p:column headerText="Cansancio extremo"/>
+                                    <p:column headerText="Secreción nasal"/>
+                                    <p:column headerText="Dificultad para respirar"/>
+                                    <p:column headerText="Dolor Garganta"/>
+                                    <p:column headerText="Otros Síntomas"/>
+                                    <p:column headerText="CoronaAPP"/>
+                                    <p:column headerText="EPS"/>
+                                    <p:column headerText="Secretaría de Salud"/>
+                                    <p:column headerText=""/>
+                                </p:row>
+                            </p:columnGroup>
+
+
+                            <p:column headerText="Fecha" >
+                                <p:cellEditor>
+                                    <f:facet name="output"> 
+                                        <p:outputLabel value="#{dailyReport.daily_report_date.date} / #{dailyReport.daily_report_date.month+1} / #{dailyReport.daily_report_date.year+1900}"/>
+                                        <p:outputLabel value="#{dailyReport.daily_report_date.hours} : #{dailyReport.daily_report_date.minutes} :#{dailyReport.daily_report_date.seconds}"/>    
+                                    </f:facet>
+                                    <f:facet name="input"> <p:outputLabel value="#{dailyReport.daily_report_date}"/></f:facet>
+                                </p:cellEditor>
+                            </p:column>
+                            <p:column headerText="Temperatura">
+                                <p:cellEditor>
+                                    <f:facet name="output"> <p:outputLabel value="#{dailyReport.daily_report_user_fever}"/></f:facet>
+                                    <f:facet name="input"> <p:inputText value="#{dailyReport.daily_report_user_fever}"/></f:facet>
+                                </p:cellEditor>
+
                             </p:column>
                             <p:column headerText="Tos">
                                 <p:cellEditor>
-                                    <f:facet name="output"> <p:selectBooleanCheckbox value="#{internal.internal_contact_tos}" disabled="true"/></f:facet>
-                                    <f:facet name="input"> <p:selectBooleanCheckbox value="#{internal.internal_contact_tos}"/></f:facet>
-                                </p:cellEditor> 
+                                    <f:facet name="output"> <p:selectBooleanCheckbox value="#{dailyReport.daily_report_user_tos}" disabled="true"/></f:facet>
+                                    <f:facet name="input"> <p:selectBooleanCheckbox value="#{dailyReport.daily_report_user_tos}" /></f:facet>
+                                </p:cellEditor>
                             </p:column>
                             <p:column headerText="Cansancio extremo">
                                 <p:cellEditor>
-                                    <f:facet name="output"> <p:selectBooleanCheckbox value="#{internal.internal_contact_cansancio}" disabled="true"/></f:facet>
-                                    <f:facet name="input"> <p:selectBooleanCheckbox value="#{internal.internal_contact_cansancio}"/></f:facet>
-                                </p:cellEditor> 
+                                    <f:facet name="output"> <p:selectBooleanCheckbox value="#{dailyReport.daily_report_user_casancio}" disabled="true"/></f:facet>
+                                    <f:facet name="input"> <p:selectBooleanCheckbox value="#{dailyReport.daily_report_user_casancio}" /></f:facet>
+                                </p:cellEditor>
+
                             </p:column>
-                            <p:column headerText="Secresión nasal">
+                            <p:column headerText="Secreción nasal">
                                 <p:cellEditor>
-                                    <f:facet name="output"> <p:selectBooleanCheckbox value="#{internal.internal_contact_secercion_nasal}" disabled="true"/></f:facet>
-                                    <f:facet name="input"> <p:selectBooleanCheckbox value="#{internal.internal_contact_secercion_nasal}"/></f:facet>
-                                </p:cellEditor> 
+                                    <f:facet name="output"> <p:selectBooleanCheckbox value="#{dailyReport.daily_report_user_secrecion_nasal}" disabled="true"/></f:facet>
+                                    <f:facet name="input"> <p:selectBooleanCheckbox value="#{dailyReport.daily_report_user_secrecion_nasal}" /></f:facet>
+                                </p:cellEditor>
 
                             </p:column>
                             <p:column headerText="Dificultad para respirar">
                                 <p:cellEditor>
-                                    <f:facet name="output"> <p:selectBooleanCheckbox value="#{internal.internal_contact_dificultad_respirar}" disabled="true"/></f:facet>
-                                    <f:facet name="input"> <p:selectBooleanCheckbox value="#{internal.internal_contact_dificultad_respirar}"/></f:facet>
-                                </p:cellEditor> 
-
+                                    <f:facet name="output"> <p:selectBooleanCheckbox value="#{dailyReport.daily_report_user_dificultad_respirar}" disabled="true"/></f:facet>
+                                    <f:facet name="input"> <p:selectBooleanCheckbox value="#{dailyReport.daily_report_user_dificultad_respirar}" /></f:facet>
+                                </p:cellEditor>
                             </p:column>
-                            <p:column headerText="Dolor garganta">
+                            <p:column headerText="Dolor Garganta">
                                 <p:cellEditor>
-                                    <f:facet name="output"> <p:selectBooleanCheckbox value="#{internal.internal_contact_dolor_garganta}" disabled="true"/></f:facet>
-                                    <f:facet name="input"> <p:selectBooleanCheckbox value="#{internal.internal_contact_dolor_garganta}"/></f:facet>
-                                </p:cellEditor> 
-
-
+                                    <f:facet name="output"> <p:selectBooleanCheckbox value="#{dailyReport.daily_report_user_dolor_garganta}" disabled="true"/></f:facet>
+                                    <f:facet name="input"> <p:selectBooleanCheckbox value="#{dailyReport.daily_report_user_dolor_garganta}" /></f:facet>
+                                </p:cellEditor>
                             </p:column>
                             <p:column headerText="Otros Síntomas">
                                 <p:cellEditor>
-                                    <f:facet name="output"> <p:outputLabel value="#{internal.internal_contact_otros_sintomas}"/></f:facet>
-                                    <f:facet name="input"> <p:inputText value="#{internal.internal_contact_otros_sintomas}"/></f:facet>
-                                </p:cellEditor> 
+                                    <f:facet name="output"> <p:outputLabel value="#{dailyReport.daily_report_user_otros_sintomas}"/></f:facet>
+                                    <f:facet name="input"> <p:inputText value="#{dailyReport.daily_report_user_otros_sintomas}"/></f:facet>
+                                </p:cellEditor>
                             </p:column>
-                            <p:column headerText="Diagnostico COVID">
+                            <p:column headerText="CoronaAPP">
                                 <p:cellEditor>
-                                    <f:facet name="output"> <p:selectBooleanCheckbox value="#{internal.internal_contact_covid_boolean}" disabled="true"/></f:facet>
-                                    <f:facet name="input"> <p:selectBooleanCheckbox value="#{internal.internal_contact_covid_boolean}"/></f:facet>
-                                </p:cellEditor> 
-
+                                    <f:facet name="output"> <p:selectBooleanCheckbox value="#{dailyReport.daily_report_user_corona_advice}" disabled="true"/></f:facet>
+                                    <f:facet name="input"> <p:selectBooleanCheckbox value="#{dailyReport.daily_report_user_corona_advice}" /></f:facet>
+                                </p:cellEditor>
                             </p:column>
-                            <p:column style="width:35px">
-                                <p:rowEditor />
-                            </p:column>
-                        </p:dataTable>        
-                        <p:commandButton value="Agregar Registro" action="#{InternalContactBean.addNewInternalContact(UserBean.currentUser)}" update="ContInterno"/>
-                    </h:form>
-
-                    <h:form id = "ContExterno" rendered="#{contentController.activePage == 4}">
-                        <div class="container-fluid">
-                            <b>Objetivo:</b> Registrar  las personas con las que tiene contacto durante la cuarentena para establecer el nexo epidemiológico en caso de enfermedad por el COVID 19
-                            <div style="padding-top: 30px">
-                                <p:panelGrid>
-                                    <h3 align="center"><p:outputLabel value="Definiciones"/></h3>
-                                    <p:outputLabel value="Contacto: es la interaccion  entre personas en un espacio de 2 metros o menos de distancia, en un espacio o en el área  durante un tiempo mayor a 15 minutos, o contacto directo con secreciones de un caso probable o confirmado  de enfermedad por COVID 19"/>
-                                    <p:outputLabel value="Registro de Contactos Externos
-                                                   Objetivo: El registro de  los contactos  que usted ha tenido  durante la cuarentena,  tiene como objetivo establecer el nexo epidemiológico en caso de enfermedad por COVID 19
-                                                   Definiciones:
-                                                   Contacto: es la interacción  entre personas  en un espacio de 2 metros o menos de distancia durante un tiempo mayor a 15 minutos y /o contacto con secreciones de un caso probable o confirmado de  enfermedad por COVID 19
-                                                   Medidas de Bioseguridad: son las acciones de protección que debemos practicar para prevenir el contagio tales como: lavado de manos, uso de tapabocas, limpieza y desinfección de artículos y superficies, lavado de ropa de calle, desinfección de calzado etc. 
-                                                   Contacto externo: se refiere a la(s) persona(s)  con la(s) que ha tenido interacción fuera de casa  o compañeros y/o  visitantes que ha recibido en la oficina: Incluye guardas de seguridad, conserjes, cajeros, personal de almacenes, supermercados etc.
-                                                   "/>
-                                </p:panelGrid>
-                            </div>
-                            <!-- Page Heading -->
-                            <div class="d-sm-flex align-items-center justify-content-between mb-4">
-                                <h2> <h:outputText value="Contacto Externo"/> </h2>
-                            </div>
-                        </div>
-                        <p:growl id="growl2" showDetail="true" sticky="true" />  
-
-                        Externo se refiere a las personas  con las que ha tenido interaccion fuera de casa
-                        (incluye a domiciliarios, conserjes o guardas de seguridad de su vivienda o fuera de 
-                        ella y personal  de bancos almacenes y compañeros de oficina )
-
-                        Marque las prácticas de bio seguridad que usted siguió durante el contacto y /o después del contacto 
-                        <p:dataTable id="tbExt" value="#{UserBean.currentUser.externalContacts}" style="padding-top: 30px" var="externalContatc" editable="true">
-                            <p:ajax event="rowEdit" update="ContExterno:growl2 tbExt" listener="#{ExtrenalContactBean.saveUpdate(externalContatc)}" />
-                            <p:ajax event="rowEditCancel" update="ContInterno" />
-
-
-                            <p:column headerText="Fecha">
+                            <p:column headerText="EPS">
                                 <p:cellEditor>
-                                    <f:facet name="output"> <p:outputLabel value="#{externalContatc.external_contact_date}" /></f:facet>
-                                    <f:facet name="input"> <div><p:inputText value="#{externalContatc.external_contact_date}"/></div></f:facet>
-                                </p:cellEditor> 
+                                    <f:facet name="output"> <p:selectBooleanCheckbox value="#{dailyReport.daily_report_user_eps_advice}" disabled="true"/></f:facet>
+                                    <f:facet name="input"> <p:selectBooleanCheckbox value="#{dailyReport.daily_report_user_eps_advice}" /></f:facet>
+                                </p:cellEditor>
                             </p:column>
-                            <p:column headerText="Lugar">
+                            <p:column headerText="Secretaría de Salud">
                                 <p:cellEditor>
-                                    <f:facet name="output"> <p:outputLabel value="#{externalContatc.external_contact_site}" /></f:facet>
-                                    <f:facet name="input"> <p:inputText value="#{externalContatc.external_contact_site}"/></f:facet>
-                                </p:cellEditor> 
-
-                            </p:column>
-                            <p:column headerText="Nombre de la persona y/ o rol con quien tuvo contacto">
-                                <p:cellEditor>
-                                    <f:facet name="output"> <p:outputLabel value="#{externalContatc.external_contact_name}" /></f:facet>
-                                    <f:facet name="input"> <p:inputText value="#{externalContatc.external_contact_name}"/></f:facet>
-                                </p:cellEditor> 
-
-                            </p:column>
-                            <p:column headerText="Lavado Manos">
-
-                                <p:cellEditor>
-                                    <f:facet name="output"> <p:selectBooleanCheckbox value="#{externalContatc.external_contact_lavado_manos}" disabled="true"/></f:facet>
-                                    <f:facet name="input"> <p:selectBooleanCheckbox value="#{externalContatc.external_contact_lavado_manos}"/></f:facet>
-                                </p:cellEditor> 
-
-
-                            </p:column>
-                            <p:column headerText="Uso tapabocas">
-                                <p:cellEditor>
-                                    <f:facet name="output"> <p:selectBooleanCheckbox value="#{externalContatc.external_contact_tapabocas}" disabled="true"/></f:facet>
-                                    <f:facet name="input"> <p:selectBooleanCheckbox value="#{externalContatc.external_contact_tapabocas}"/></f:facet>
-                                </p:cellEditor> 
-                            </p:column>
-                            <p:column headerText="Limpiea y desinfección">
-                                <p:cellEditor>
-                                    <f:facet name="output"> <p:selectBooleanCheckbox value="#{externalContatc.external_contact_limpieza_superficies}" disabled="true"/></f:facet>
-                                    <f:facet name="input"> <p:selectBooleanCheckbox value="#{externalContatc.external_contact_limpieza_superficies}"/></f:facet>
-                                </p:cellEditor> 
-                            </p:column>
-                            <p:column headerText="Lavado de ropa de calle">
-                                <p:cellEditor>
-                                    <f:facet name="output"> <p:selectBooleanCheckbox value="#{externalContatc.external_contact_lavado_ropa}" disabled="true"/></f:facet>
-                                    <f:facet name="input"> <p:selectBooleanCheckbox value="#{externalContatc.external_contact_lavado_ropa}"/></f:facet>
-                                </p:cellEditor> 
-                            </p:column>
-                            <p:column headerText="Desinfección de zapatos">
-                                <p:cellEditor>
-                                    <f:facet name="output"> <p:selectBooleanCheckbox value="#{externalContatc.external_contact_desinfeccion_zapatos}" disabled="true"/></f:facet>
-                                    <f:facet name="input"> <p:selectBooleanCheckbox value="#{externalContatc.external_contact_desinfeccion_zapatos}"/></f:facet>
-                                </p:cellEditor> 
-                            </p:column>
-                            <p:column headerText="Ducha">
-                                <p:cellEditor>
-                                    <f:facet name="output"> <p:selectBooleanCheckbox value="#{externalContatc.external_contact_ducha}" disabled="true"/></f:facet>
-                                    <f:facet name="input"> <p:selectBooleanCheckbox value="#{externalContatc.external_contact_ducha}"/></f:facet>
-                                </p:cellEditor> 
-                            </p:column>
-                            <p:column headerText="Otros">
-                                <p:cellEditor>
-                                    <f:facet name="output"> <p:outputLabel value="#{externalContatc.external_contact_others}" /></f:facet>
-                                    <f:facet name="input"> <p:inputText value="#{externalContatc.external_contact_others}"/></f:facet>
-                                </p:cellEditor> 
+                                    <f:facet name="output"> <p:selectBooleanCheckbox value="#{dailyReport.daily_report_user_secretaria_advice}" disabled="true"/></f:facet>
+                                    <f:facet name="input"> <p:selectBooleanCheckbox value="#{dailyReport.daily_report_user_secretaria_advice}" /></f:facet>
+                                </p:cellEditor>
                             </p:column>
                             <p:column style="width:35px">
                                 <p:rowEditor />
                             </p:column>
                         </p:dataTable>
-                        <p:commandButton value="Agregar Registro" action="#{ExtrenalContactBean.addNewExternalContact(UserBean.currentUser)}" update="tbExt"/>
-                    </h:form>
 
-                    <h:form id = "CrearUsuario" rendered="#{contentController.activePage == 5}">
-                        <p:growl id="growl2" showDetail="true" sticky="true" />  
-                        <p:outputLabel value="Nombre completo"/>
-                        <p:inputText value="#{usersManagementBean.newUser.name}"/>
-                        <p:outputLabel value="Usuario"/>
-                        <p:inputText value="#{usersManagementBean.newUser.nickname}"/>
-                        <p:outputLabel value="Identifiación"/>
-                        <p:inputText value="#{usersManagementBean.newUser.cc}"/>
-                        <p:outputLabel value="Rol"/>
-                        <h:selectOneMenu value="#{usersManagementBean.rol_id}">
-                            <f:selectItems value="#{constantesBean.roles}" var="rol" itemLabel="#{rol.rol_name}" itemValue="#{rol.rol_id}"/>
-                        </h:selectOneMenu>
-                        <p:outputLabel value="Area"/>
-                        <h:selectOneMenu value="#{usersManagementBean.area_id}">
-                            <f:selectItems value="#{constantesBean.areas}" var="area" itemLabel="#{area.area_nombre}" itemValue="#{area.area_id}"/>
-                        </h:selectOneMenu>
+                    </div>
+                </h:form>
 
-                        <p:commandButton value="Crear usuario" action="#{usersManagementBean.crearUsuario()}" ajax="false"/>
+                <h:form id = "ContInterno" rendered="#{contentController.activePage == 3}">
+                    <div class="container-fluid">
+                        <!-- Page Heading -->
+                        <b>Objetivo:</b> Registrar  las personas con las que tiene contacto durante la cuarentena para establecer el nexo epidemiológico en caso de enfermedad por el COVID 19
+                        <div style="padding-top: 30px">
+                            <p:panelGrid>
+                                <h3 align="center"><p:outputLabel value="Definiciones"/></h3>
+                                <p:outputLabel value="Contacto: es la interaccion  entre personas en un espacio de 2 metros o menos de distancia, en un espacio o en el área  durante un tiempo mayor a 15 minutos, o contacto directo con secreciones de un caso probable o confirmado  de enfermedad por COVID 19"/>
+                                <p:outputLabel value="Registro de Contactos Internos
+                                               Objetivo: El registro de  los contactos  que usted ha tenido  durante la cuarentena,  tiene como objetivo establecer el nexo epidemiológico en caso de enfermedad por COVID 19
+                                               Definiciones:
+                                               Contacto: es la interacción  entre personas  en un espacio de 2 metros o menos de distancia durante un tiempo mayor a 15 minutos y /o contacto con secreciones de un caso probable o confirmado de  enfermedad por COVID 19
+                                               Medidas de Bioseguridad: son las acciones de protección que debemos practicar para prevenir el contagio tales como: lavado de manos, uso de tapabocas, limpieza y desinfección de artículos y superficies, lavado de ropa de calle, desinfección de calzado etc. 
+                                               Contacto Interno: se refiere a las personas que están con usted en casa durante el periodo de emergencia sanitaria
+                                               "/>
+                            </p:panelGrid>
+                        </div>
+                        <div class="d-sm-flex align-items-center justify-content-between mb-4">
 
-                    </h:form>
+                            <h2><h:outputText value="Contacto Interno"/></h2>
+                            <h4>Registre la temperatura y marque los síntomas que haya presentado su contacto en las últimas 24 horas</h4>
+                        </div>
+                    </div>
+                    <p:growl id="growl2" showDetail="true" sticky="true" />  
+
+
+                    <p:dataTable value="#{UserBean.currentUser.internalContacts}" style="padding-top: 30px" var="internal" editable="true" id="tbCi">
+
+                        <p:ajax event="rowEdit" update="ContInterno:growl2 tbCi" listener="#{InternalContactBean.saveUpdate(internal, UserBean.currentUser)}" />
+                        <p:ajax event="rowEditCancel" update="ContInterno" />
+
+                        <p:column headerText="Fecha">
+                            <p:cellEditor>
+                                <f:facet name="output"> <p:outputLabel value="#{internal.internal_contact_date}"/></f:facet>
+                                <f:facet name="input"> <p:outputLabel value="#{internal.internal_contact_date}"/></f:facet>
+                            </p:cellEditor>
+                        </p:column>
+                        <p:column headerText="Nombre Contacto">
+                            <p:cellEditor>
+                                <f:facet name="output"> <p:outputLabel value="#{internal.internal_contact_home_people_id.home_people_name}"/></f:facet>
+                                <f:facet name="input">
+                                    <h:selectOneMenu value="#{InternalContactBean.home_people_id}">
+                                        <f:selectItems var="homepeople" value="#{UserBean.currentUser.homePeoples}" itemLabel="#{homepeople.home_people_name}" itemValue="#{homepeople.home_people_id}"/>
+                                    </h:selectOneMenu>
+                                </f:facet>
+                            </p:cellEditor>
+                        </p:column>
+                        <p:column headerText="Temperatura en °C">
+                            <p:cellEditor>
+                                <f:facet name="output"> <p:outputLabel value="#{internal.internal_contact_fever}"/></f:facet>
+                                <f:facet name="input"> <p:inputText value="#{internal.internal_contact_fever}"/></f:facet>
+                            </p:cellEditor> 
+                        </p:column>
+                        <p:column headerText="Tos">
+                            <p:cellEditor>
+                                <f:facet name="output"> <p:selectBooleanCheckbox value="#{internal.internal_contact_tos}" disabled="true"/></f:facet>
+                                <f:facet name="input"> <p:selectBooleanCheckbox value="#{internal.internal_contact_tos}"/></f:facet>
+                            </p:cellEditor> 
+                        </p:column>
+                        <p:column headerText="Cansancio extremo">
+                            <p:cellEditor>
+                                <f:facet name="output"> <p:selectBooleanCheckbox value="#{internal.internal_contact_cansancio}" disabled="true"/></f:facet>
+                                <f:facet name="input"> <p:selectBooleanCheckbox value="#{internal.internal_contact_cansancio}"/></f:facet>
+                            </p:cellEditor> 
+                        </p:column>
+                        <p:column headerText="Secresión nasal">
+                            <p:cellEditor>
+                                <f:facet name="output"> <p:selectBooleanCheckbox value="#{internal.internal_contact_secercion_nasal}" disabled="true"/></f:facet>
+                                <f:facet name="input"> <p:selectBooleanCheckbox value="#{internal.internal_contact_secercion_nasal}"/></f:facet>
+                            </p:cellEditor> 
+
+                        </p:column>
+                        <p:column headerText="Dificultad para respirar">
+                            <p:cellEditor>
+                                <f:facet name="output"> <p:selectBooleanCheckbox value="#{internal.internal_contact_dificultad_respirar}" disabled="true"/></f:facet>
+                                <f:facet name="input"> <p:selectBooleanCheckbox value="#{internal.internal_contact_dificultad_respirar}"/></f:facet>
+                            </p:cellEditor> 
+
+                        </p:column>
+                        <p:column headerText="Dolor garganta">
+                            <p:cellEditor>
+                                <f:facet name="output"> <p:selectBooleanCheckbox value="#{internal.internal_contact_dolor_garganta}" disabled="true"/></f:facet>
+                                <f:facet name="input"> <p:selectBooleanCheckbox value="#{internal.internal_contact_dolor_garganta}"/></f:facet>
+                            </p:cellEditor> 
+
+
+                        </p:column>
+                        <p:column headerText="Otros Síntomas">
+                            <p:cellEditor>
+                                <f:facet name="output"> <p:outputLabel value="#{internal.internal_contact_otros_sintomas}"/></f:facet>
+                                <f:facet name="input"> <p:inputText value="#{internal.internal_contact_otros_sintomas}"/></f:facet>
+                            </p:cellEditor> 
+                        </p:column>
+                        <p:column headerText="Diagnostico COVID">
+                            <p:cellEditor>
+                                <f:facet name="output"> <p:selectBooleanCheckbox value="#{internal.internal_contact_covid_boolean}" disabled="true"/></f:facet>
+                                <f:facet name="input"> <p:selectBooleanCheckbox value="#{internal.internal_contact_covid_boolean}"/></f:facet>
+                            </p:cellEditor> 
+
+                        </p:column>
+                        <p:column style="width:35px">
+                            <p:rowEditor />
+                        </p:column>
+                    </p:dataTable>        
+                    <p:commandButton value="Agregar Registro" action="#{InternalContactBean.addNewInternalContact(UserBean.currentUser)}" update="ContInterno"/>
+                </h:form>
+
+                <h:form id = "ContExterno" rendered="#{contentController.activePage == 4}">
+                    <div class="container-fluid">
+                        <b>Objetivo:</b> Registrar  las personas con las que tiene contacto durante la cuarentena para establecer el nexo epidemiológico en caso de enfermedad por el COVID 19
+                        <div style="padding-top: 30px">
+                            <p:panelGrid>
+                                <h3 align="center"><p:outputLabel value="Definiciones"/></h3>
+                                <p:outputLabel value="Contacto: es la interaccion  entre personas en un espacio de 2 metros o menos de distancia, en un espacio o en el área  durante un tiempo mayor a 15 minutos, o contacto directo con secreciones de un caso probable o confirmado  de enfermedad por COVID 19"/>
+                                <p:outputLabel value="Registro de Contactos Externos
+                                               Objetivo: El registro de  los contactos  que usted ha tenido  durante la cuarentena,  tiene como objetivo establecer el nexo epidemiológico en caso de enfermedad por COVID 19
+                                               Definiciones:
+                                               Contacto: es la interacción  entre personas  en un espacio de 2 metros o menos de distancia durante un tiempo mayor a 15 minutos y /o contacto con secreciones de un caso probable o confirmado de  enfermedad por COVID 19
+                                               Medidas de Bioseguridad: son las acciones de protección que debemos practicar para prevenir el contagio tales como: lavado de manos, uso de tapabocas, limpieza y desinfección de artículos y superficies, lavado de ropa de calle, desinfección de calzado etc. 
+                                               Contacto externo: se refiere a la(s) persona(s)  con la(s) que ha tenido interacción fuera de casa  o compañeros y/o  visitantes que ha recibido en la oficina: Incluye guardas de seguridad, conserjes, cajeros, personal de almacenes, supermercados etc.
+                                               "/>
+                            </p:panelGrid>
+                        </div>
+                        <!-- Page Heading -->
+                        <div class="d-sm-flex align-items-center justify-content-between mb-4">
+                            <h2> <h:outputText value="Contacto Externo"/> </h2>
+                        </div>
+                    </div>
+                    <p:growl id="growl2" showDetail="true" sticky="true" />  
+
+                    Externo se refiere a las personas  con las que ha tenido interaccion fuera de casa
+                    (incluye a domiciliarios, conserjes o guardas de seguridad de su vivienda o fuera de 
+                    ella y personal  de bancos almacenes y compañeros de oficina )
+
+                    Marque las prácticas de bio seguridad que usted siguió durante el contacto y /o después del contacto 
+                    <p:dataTable id="tbExt" value="#{UserBean.currentUser.externalContacts}" style="padding-top: 30px" var="externalContatc" editable="true">
+                        <p:ajax event="rowEdit" update="ContExterno:growl2 tbExt" listener="#{ExtrenalContactBean.saveUpdate(externalContatc)}" />
+                        <p:ajax event="rowEditCancel" update="ContInterno" />
+
+
+                        <p:column headerText="Fecha">
+                            <p:cellEditor>
+                                <f:facet name="output"> <p:outputLabel value="#{externalContatc.external_contact_date}" /></f:facet>
+                                <f:facet name="input"> <p:calendar pattern="MM/dd/yyyy HH:mm:ss" value="#{externalContatc.external_contact_date}"/></f:facet>
+                            </p:cellEditor> 
+                        </p:column>
+                        <p:column headerText="Lugar">
+                            <p:cellEditor>
+                                <f:facet name="output"> <p:outputLabel value="#{externalContatc.external_contact_site}" /></f:facet>
+                                <f:facet name="input"> <p:inputText value="#{externalContatc.external_contact_site}"/></f:facet>
+                            </p:cellEditor> 
+
+                        </p:column>
+                        <p:column headerText="Nombre de la persona y/ o rol con quien tuvo contacto">
+                            <p:cellEditor>
+                                <f:facet name="output"> <p:outputLabel value="#{externalContatc.external_contact_name}" /></f:facet>
+                                <f:facet name="input"> <p:inputText value="#{externalContatc.external_contact_name}"/></f:facet>
+                            </p:cellEditor> 
+
+                        </p:column>
+                        <p:column headerText="Lavado Manos">
+
+                            <p:cellEditor>
+                                <f:facet name="output"> <p:selectBooleanCheckbox value="#{externalContatc.external_contact_lavado_manos}" disabled="true"/></f:facet>
+                                <f:facet name="input"> <p:selectBooleanCheckbox value="#{externalContatc.external_contact_lavado_manos}"/></f:facet>
+                            </p:cellEditor> 
+
+
+                        </p:column>
+                        <p:column headerText="Uso tapabocas">
+                            <p:cellEditor>
+                                <f:facet name="output"> <p:selectBooleanCheckbox value="#{externalContatc.external_contact_tapabocas}" disabled="true"/></f:facet>
+                                <f:facet name="input"> <p:selectBooleanCheckbox value="#{externalContatc.external_contact_tapabocas}"/></f:facet>
+                            </p:cellEditor> 
+                        </p:column>
+                        <p:column headerText="Limpiea y desinfección">
+                            <p:cellEditor>
+                                <f:facet name="output"> <p:selectBooleanCheckbox value="#{externalContatc.external_contact_limpieza_superficies}" disabled="true"/></f:facet>
+                                <f:facet name="input"> <p:selectBooleanCheckbox value="#{externalContatc.external_contact_limpieza_superficies}"/></f:facet>
+                            </p:cellEditor> 
+                        </p:column>
+                        <p:column headerText="Lavado de ropa de calle">
+                            <p:cellEditor>
+                                <f:facet name="output"> <p:selectBooleanCheckbox value="#{externalContatc.external_contact_lavado_ropa}" disabled="true"/></f:facet>
+                                <f:facet name="input"> <p:selectBooleanCheckbox value="#{externalContatc.external_contact_lavado_ropa}"/></f:facet>
+                            </p:cellEditor> 
+                        </p:column>
+                        <p:column headerText="Desinfección de zapatos">
+                            <p:cellEditor>
+                                <f:facet name="output"> <p:selectBooleanCheckbox value="#{externalContatc.external_contact_desinfeccion_zapatos}" disabled="true"/></f:facet>
+                                <f:facet name="input"> <p:selectBooleanCheckbox value="#{externalContatc.external_contact_desinfeccion_zapatos}"/></f:facet>
+                            </p:cellEditor> 
+                        </p:column>
+                        <p:column headerText="Ducha">
+                            <p:cellEditor>
+                                <f:facet name="output"> <p:selectBooleanCheckbox value="#{externalContatc.external_contact_ducha}" disabled="true"/></f:facet>
+                                <f:facet name="input"> <p:selectBooleanCheckbox value="#{externalContatc.external_contact_ducha}"/></f:facet>
+                            </p:cellEditor> 
+                        </p:column>
+                        <p:column headerText="Otros">
+                            <p:cellEditor>
+                                <f:facet name="output"> <p:outputLabel value="#{externalContatc.external_contact_others}" /></f:facet>
+                                <f:facet name="input"> <p:inputText value="#{externalContatc.external_contact_others}"/></f:facet>
+                            </p:cellEditor> 
+                        </p:column>
+                        <p:column style="width:35px">
+                            <p:rowEditor />
+                        </p:column>
+                    </p:dataTable>
+                    <p:commandButton value="Agregar Registro" action="#{ExtrenalContactBean.addNewExternalContact(UserBean.currentUser)}" update="tbExt"/>
+                </h:form>
+
+                <h:form id = "CrearUsuario" rendered="#{contentController.activePage == 5}">
+                    <p:growl id="growl2" showDetail="true" sticky="true" />  
+                    <p:outputLabel value="Nombre completo"/>
+                    <p:inputText value="#{usersManagementBean.newUser.name}"/>
+                    <p:outputLabel value="Usuario"/>
+                    <p:inputText value="#{usersManagementBean.newUser.nickname}"/>
+                    <p:outputLabel value="Identifiación"/>
+                    <p:inputText value="#{usersManagementBean.newUser.cc}"/>
+                    <p:outputLabel value="Rol"/>
+                    <h:selectOneMenu value="#{usersManagementBean.rol_id}">
+                        <f:selectItems value="#{constantesBean.roles}" var="rol" itemLabel="#{rol.rol_name}" itemValue="#{rol.rol_id}"/>
+                    </h:selectOneMenu>
+                    <p:outputLabel value="Area"/>
+                    <h:selectOneMenu value="#{usersManagementBean.area_id}">
+                        <f:selectItems value="#{constantesBean.areas}" var="area" itemLabel="#{area.area_nombre}" itemValue="#{area.area_id}"/>
+                    </h:selectOneMenu>
+
+                    <p:commandButton value="Crear usuario" action="#{usersManagementBean.crearUsuario()}" ajax="false"/>
+
+                </h:form>
 
 
 
-                    <p:tabView id = "Reportes" rendered="#{contentController.activePage == 6}">
-                        <p:tab title="No resuelto hoy">
-                            <h:form>
-                                <p:commandButton value="Actualizar" action="#{QuerysBean.loadNotResolveTodays()}" ajax="false"/>
-                                <p:dataTable value="#{QuerysBean.notResolveTodays}" var="people" id="tb1" rows="15" paginator="true" sortBy="#{people.name}" >
-                                    <p:column headerText="Nombre" filterBy="#{people.name}" >
-                                        <p:outputLabel value="#{people.name}"/>
-                                    </p:column>
-                                </p:dataTable>
-                            </h:form>
-                        </p:tab>
+                <p:tabView id = "Reportes" rendered="#{contentController.activePage == 6}">
+                    <p:tab title="No resuelto hoy">
+                        <h:form>
+                            <p:commandButton value="Actualizar" action="#{QuerysBean.loadNotResolveTodays()}" ajax="false"/>
+                            <p:dataTable value="#{QuerysBean.notResolveTodays}" var="people" id="tb1" rows="15" paginator="true" sortBy="#{people.name}" >
+                                <p:column headerText="Nombre" filterBy="#{people.name}" >
+                                    <p:outputLabel value="#{people.name}"/>
+                                </p:column>
+                            </p:dataTable>
+                        </h:form>
+                    </p:tab>
 
-                    </p:tabView>
-                </div>
+                </p:tabView>
             </div>
+
         </div>
     </h:body>
 
