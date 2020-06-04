@@ -8,6 +8,11 @@ and open the template in the editor.
     Author     : linuxserver
 */
 
+.ui-datatable thead th{
+    font-size: 12px;
+}
+
+
 body{
     background: activecaption;
 }
@@ -15,23 +20,45 @@ body{
 .contenedor{    
     height: 100%;  
     border-radius: 25px;
+    -webkit-border-radius: 25px;
+    -moz-border-radius: 25px;
+    -o-border-radius: 25px;
+    -ms-border-radius: 25px;
+    top: 20%;height: 60%;  margin: 0;
+    position: absolute; background-color: #008080; width: 50%;
+    left: 25%;  border-radius: 25px; border: 1px solid cadetblue;
+    box-shadow: 2px 3px;
 }
 
 .column2{
-    
+
     float: left;
     width: 50%;
     height: 100%;
-    
+    text-align: center;
+    display: block;
+    position: relative;
+
+}
+.column2 a img{
+
+    top: 50%;
+    margin-top: 25%;
+    text-align: center;
+
 }
 
 .input{
-    
+
     width: 80%;
 }
 
 .form{
-    padding-top: 45%;
+    position: absolute;
+    top: 50%;
+    margin-top: -15%;
+    text-align: center;
+    width: 100%;
 }
 
 * {
@@ -39,9 +66,9 @@ body{
 }
 
 hr{
-     background: cadetblue;
-     padding-top: 20px;
-     border: 100px;
+    background: #008080;
+    padding-top: 20px;
+    border: 100px;
 }
 
 .sidebar{
@@ -50,7 +77,7 @@ hr{
     left: 0px;
     width: 250px;
     height: 100%;
-    background: cadetblue;
+    background: #008080;
     transition: all .5s ease;
 }
 
@@ -65,19 +92,33 @@ hr{
 }
 
 .btn-sidebar{
-    background-color: cadetblue !important;
-    border-color: cadetblue !important;
-    color: black !important;
+    background-color: #008080 !important;
+    border-color: #008080 !important;
+    color: white !important;
     box-sizing: border-box;
     border: 1px solid rgba(255,255,255,.1) ;
     border-bottom-color: #000000;
-    background: cadetblue;
+    background: #008080;
     font-size: 40% !important;
-    
+
 }
 
-button{
+.menubutton{
+    background: #008080 !important;
+    color: #fefefe !important;
+}
 
+.button{
+    background: #008080 !important;
+    color: #fefefe !important;
+    border-radius: 10px !important;  
+    border-bottom-color: #000000 !important;
+    border-bottom-width: .5px;
+    border-right-color: #000000 !important;
+}
+
+.button :hover{
+    font-size: 110%;
 }
 
 .sidebar ul li{
@@ -115,7 +156,7 @@ label #btns{
     padding: 6px 9px;
     transition: all .5s;
     opacity: 0;
-    
+
     pointer-events: none;
 }
 
@@ -124,7 +165,7 @@ label #cancela{
     left: 195px;
     top: 10px;
     font-size: 20px;
-    color: #000000;
+    color: white;
     padding: 4px 9px;
     transition: all .5s ease;
     position: fixed;

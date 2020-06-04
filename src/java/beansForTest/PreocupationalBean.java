@@ -22,6 +22,7 @@ import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ManagedProperty;
 import javax.faces.context.FacesContext;
 import javax.faces.bean.ViewScoped;
+import util.Utilidades;
 
 /**
  *
@@ -41,6 +42,8 @@ public class PreocupationalBean implements Serializable {
     @ManagedProperty("#{contentController}")
     private ContentController contentController;
     
+    private boolean terminos;
+    
     @EJB
     UserFacade userFacade;
     @EJB
@@ -51,6 +54,7 @@ public class PreocupationalBean implements Serializable {
     @PostConstruct
     public void init() {
         preocupationalTest = (new PreocupationalTest());
+        terminos = false;
     }
 
     public void guardarInfor(Users user) {
@@ -80,6 +84,12 @@ public class PreocupationalBean implements Serializable {
             context.addMessage(null, new FacesMessage("Error", "Datos No Guardados"));
         }
 
+    }
+    
+    public void aceptarTerminos(){
+        if(!terminos){
+            Utilidades.imprimir_msg_advertencia("Aviso", "Debe aceptar los términos");
+        }
     }
 
     /**
@@ -136,6 +146,20 @@ public class PreocupationalBean implements Serializable {
      */
     public void setContentController(ContentController contentController) {
         this.contentController = contentController;
+    }
+
+    /**
+     * @return the terminos
+     */
+    public boolean isTerminos() {
+        return terminos;
+    }
+
+    /**
+     * @param terminos the terminos to set
+     */
+    public void setTerminos(boolean terminos) {
+        this.terminos = terminos;
     }
 
 }

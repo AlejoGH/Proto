@@ -16,7 +16,6 @@ import java.util.Objects;
 import javax.ejb.EJB;
 import javax.faces.bean.ManagedBean;
 import javax.faces.view.ViewScoped;
-import javax.inject.Named;
 
 /**
  *
@@ -59,6 +58,7 @@ public class InternalContactBean implements Serializable {
         InternalContact newInternalContact = new InternalContact();
         newInternalContact.setInternal_contact_user_id(users);
         newInternalContact.setInternal_contact_date(new Date());
+        newInternalContact.setInternal_contact_fever(36.0);
         if (internalContactFadace.SaveInternalContact(newInternalContact)) {
             users.getInternalContacts().add(newInternalContact);
         } else {

@@ -9,42 +9,38 @@
     </h:head>
     <h:body style="height:100%;width:100%">
         <p:growl showDetail="true" sticky="true"/>
-        <div align="center" style="top: 20%;height: 60%;  margin: 0;
-             position: absolute; background-color: cadetblue; width: 50%; left: 25%;  border-radius: 25px; border: 1px solid cadetblue;">
-
-            <div class="contenedor" >
-
-                <div class="column2" >
+        <div class="contenedor" >
+            <div class="column2" >
+                <a href="https://fondoaccion.org/">
+                    <img src="resources/img/logofa.png" height="auto" width="100%"/>
+                </a>
+            </div>
+            <div class="column2" align="center" style="background: #f2f2f2;
+                 border-top-right-radius: 25px; border-bottom-right-radius: 25px; ">
+                <div >
+                    <h2>Iniciar Sesión</h2>
+                </div>
+                <h:form class="form">
                     <div >
-                        <h2>Iniciar Sesión</h2>
+                        <p:inputText placeholder="Usuario" 
+                                     class="input" 
+                                     value="#{UserBean.userNick}"/>
                     </div>
-                    <a href="https://fondoaccion.org/">
-                        <img src="resources/img/logofa.png" height="auto" width="100%"/>
-                    </a>
-                </div>
-                <div class="column2" align="center" style="background: background">
-
-                    <h:form class="form">
-                        <div >
-                            <p:inputText placeholder="Usuario" 
-                                         class="input" 
-                                         value="#{UserBean.userNick}"/>
-                        </div>
-                        <div>
-                            <!-- <span class="fa fa-lock"></span> -->
-                            <p:password placeholder="Contraseña" 
-                                        class="input" 
-                                        value="#{UserBean.userPassword}"/>                                    
-                        </div>
-                        <br/>
-                        <div >
-                            <p:commandButton value="Iniciar Sesión" 
-                                             id="btn" class="btn" 
-                                             action="#{UserBean.loginpRO()}" 
-                                             ajax="false"/>
-                        </div>
-                    </h:form>
-                </div>
+                    <div>
+                        <p:password placeholder="Contraseña" 
+                                    class="input" 
+                                    value="#{UserBean.userPassword}"/>                                    
+                    </div>
+                    <br/>
+                    <div >
+                        <p:commandButton value="Iniciar Sesión" 
+                                         id="btn" class="btn" 
+                                         action="#{UserBean.loginpRO()}" 
+                                         ajax="false"
+                                         styleClass="button"
+                                         />
+                    </div>
+                </h:form>
             </div>
         </div>
     </h:body>

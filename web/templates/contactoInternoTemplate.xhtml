@@ -1,0 +1,131 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition
+    xmlns="http://www.w3.org/1999/xhtml"
+    xmlns:ui="http://java.sun.com/jsf/facelets"
+    xmlns:p="http://primefaces.org/ui"
+    xmlns:h="http://xmlns.jcp.org/jsf/html"
+    xmlns:f="http://xmlns.jcp.org/jsf/core"
+    xmlns:jsf="http://xmlns.jcp.org/jsf">
+    <p:panel header="Contactos Internos" style="padding-bottom: 100px" rendered="#{contentController.activePage == 3}">
+        <h:form id = "ContInterno" >
+            <b>Objetivo:</b> Registrar  las personas con las que tiene contacto durante la cuarentena para establecer el nexo epidemiológico en caso de enfermedad por el COVID 19
+            <br/>
+            <div style="padding-top: 30px">
+                <p:panelGrid>
+                    <b><p:outputLabel value="Definiciones"/></b>
+                    <br/>
+                    <b>Contacto:</b> Es la interaccion  entre personas en un espacio de 2 metros o menos de distancia, durante un tiempo mayor a 15 minutos, o contacto directo con secreciones de un caso probable o confirmado  de enfermedad por COVID 19
+                    <br/>
+                    <b>Medidas de Bioseguridad:</b> Son las acciones de protección que debemos practicar para prevenir el contagio tales como: lavado de manos, uso de tapabocas, limpieza y desinfección de artículos y superficies, lavado de ropa de calle, desinfección de calzado etc. 
+                    <br/>
+                    <b>Contacto Interno:</b> Se refiere a las personas que están con usted en casa durante el periodo de emergencia sanitaria.
+                    <br/>
+
+                </p:panelGrid>
+            </div>
+
+
+
+            <p:growl id="growl2" showDetail="true" sticky="true" />  
+
+            <p:commandButton class="button" value="Agregar Registro" action="#{InternalContactBean.addNewInternalContact(UserBean.currentUser)}" update="ContInterno"/>
+            <p:dataTable value="#{UserBean.currentUser.internalContacts}" style="padding-top: 30px" var="internal" editable="true" id="tbCi">
+
+                <p:ajax event="rowEdit" update="ContInterno:growl2 tbCi" listener="#{InternalContactBean.saveUpdate(internal, UserBean.currentUser)}" />
+                <p:columnGroup type="header" >
+                    <p:row>
+                        <p:column colspan="10" headerText="Registre la temperatura y marque los síntomas que haya presentado su contacto en las últimas 24 horas" />                                    
+                    </p:row>
+                    <p:row>
+                        <p:column headerText="Fecha"/>
+                        <p:column headerText="Nombre Contacto"/>
+                        <p:column headerText="Temperatura en °C"/>
+                        <p:column headerText="Tos"/>
+                        <p:column headerText="Cansancio extremo"/>
+                        <p:column headerText="Secresión nasal"/>
+                        <p:column headerText="Dificultad para respirar"/>
+                        <p:column headerText="Dolor garganta"/>
+                        <p:column headerText="Otros Síntomas"/>
+                        <p:column headerText="Diagnostico COVID"/>
+                    </p:row>
+                </p:columnGroup>
+
+                <p:column headerText="Fecha">
+                    <p:cellEditor>
+                        <f:facet name="output"> <p:outputLabel value="#{internal.internal_contact_date}"/></f:facet>
+                        <f:facet name="input"> <p:outputLabel value="#{internal.internal_contact_date}"/></f:facet>
+                    </p:cellEditor>
+                </p:column>
+                <p:column headerText="Nombre Contacto">
+                    <p:cellEditor>
+                        <f:facet name="output"> <p:outputLabel value="#{internal.internal_contact_home_people_id.home_people_name}"/></f:facet>
+                        <f:facet name="input">
+                            <h:selectOneMenu value="#{InternalContactBean.home_people_id}">
+                                <f:selectItems var="homepeople" value="#{UserBean.currentUser.homePeoples}" itemLabel="#{homepeople.home_people_name}" itemValue="#{homepeople.home_people_id}"/>
+                            </h:selectOneMenu>
+                        </f:facet>
+                    </p:cellEditor>
+                </p:column>
+                <p:column headerText="Temperatura en °C">
+                    <p:cellEditor>
+                        <f:facet name="output"> <p:outputLabel value="#{internal.internal_contact_fever}"/></f:facet>
+                        <f:facet name="input"> <p:inputText value="#{internal.internal_contact_fever}"/></f:facet>
+                    </p:cellEditor> 
+                </p:column>
+                <p:column headerText="Tos">
+                    <p:cellEditor>
+                        <f:facet name="output"> <p:selectBooleanCheckbox value="#{internal.internal_contact_tos}" disabled="true"/></f:facet>
+                        <f:facet name="input"> <p:selectBooleanCheckbox value="#{internal.internal_contact_tos}"/></f:facet>
+                    </p:cellEditor> 
+                </p:column>
+                <p:column headerText="Cansancio extremo">
+                    <p:cellEditor>
+                        <f:facet name="output"> <p:selectBooleanCheckbox value="#{internal.internal_contact_cansancio}" disabled="true"/></f:facet>
+                        <f:facet name="input"> <p:selectBooleanCheckbox value="#{internal.internal_contact_cansancio}"/></f:facet>
+                    </p:cellEditor> 
+                </p:column>
+                <p:column headerText="Secresión nasal">
+                    <p:cellEditor>
+                        <f:facet name="output"> <p:selectBooleanCheckbox value="#{internal.internal_contact_secercion_nasal}" disabled="true"/></f:facet>
+                        <f:facet name="input"> <p:selectBooleanCheckbox value="#{internal.internal_contact_secercion_nasal}"/></f:facet>
+                    </p:cellEditor> 
+
+                </p:column>
+                <p:column headerText="Dificultad para respirar">
+                    <p:cellEditor>
+                        <f:facet name="output"> <p:selectBooleanCheckbox value="#{internal.internal_contact_dificultad_respirar}" disabled="true"/></f:facet>
+                        <f:facet name="input"> <p:selectBooleanCheckbox value="#{internal.internal_contact_dificultad_respirar}"/></f:facet>
+                    </p:cellEditor> 
+
+                </p:column>
+                <p:column headerText="Dolor garganta">
+                    <p:cellEditor>
+                        <f:facet name="output"> <p:selectBooleanCheckbox value="#{internal.internal_contact_dolor_garganta}" disabled="true"/></f:facet>
+                        <f:facet name="input"> <p:selectBooleanCheckbox value="#{internal.internal_contact_dolor_garganta}"/></f:facet>
+                    </p:cellEditor> 
+
+
+                </p:column>
+                <p:column headerText="Otros Síntomas">
+                    <p:cellEditor>
+                        <f:facet name="output"> <p:outputLabel value="#{internal.internal_contact_otros_sintomas}"/></f:facet>
+                        <f:facet name="input"> <p:inputText value="#{internal.internal_contact_otros_sintomas}"/></f:facet>
+                    </p:cellEditor> 
+                </p:column>
+                <p:column headerText="Diagnostico COVID">
+                    <p:cellEditor>
+                        <f:facet name="output"> <p:selectBooleanCheckbox value="#{internal.internal_contact_covid_boolean}" disabled="true"/></f:facet>
+                        <f:facet name="input"> <p:selectBooleanCheckbox value="#{internal.internal_contact_covid_boolean}"/></f:facet>
+                    </p:cellEditor> 
+
+                </p:column>
+                <p:column style="width:35px">
+                    <p:rowEditor />
+                </p:column>
+            </p:dataTable>        
+
+        </h:form>
+    </p:panel>
+</ui:composition>
+

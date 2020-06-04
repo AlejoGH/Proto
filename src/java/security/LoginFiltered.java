@@ -3,7 +3,6 @@ package security;
 import entidades.users.UserBean;
 import java.io.IOException;
 import java.util.logging.Level;
-import javax.faces.bean.ManagedProperty;
 
 import javax.servlet.Filter;
 import javax.servlet.FilterChain;

@@ -17,8 +17,6 @@ import javax.ejb.EJB;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ManagedProperty;
 import javax.faces.bean.ViewScoped;
-import javax.inject.Inject;
-import javax.inject.Named;
 import org.mindrot.jbcrypt.BCrypt;
 
 /**
@@ -27,7 +25,7 @@ import org.mindrot.jbcrypt.BCrypt;
  */
 @ViewScoped
 
-@ManagedBean(name = "UsersManagementBean")
+@ManagedBean(name = "usersManagementBean")
 public class UsersManagementBean implements Serializable {
 
     @ManagedProperty("#{constantesBean}")

@@ -38,7 +38,6 @@ public class ContentController implements Serializable {
     }
 
     public void changeActivePage(Integer val) {
-        System.out.println("val" + val);
         activePage = val;
     }
 

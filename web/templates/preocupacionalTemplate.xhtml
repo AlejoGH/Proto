@@ -1,0 +1,242 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition
+    xmlns="http://www.w3.org/1999/xhtml"
+    xmlns:ui="http://java.sun.com/jsf/facelets"
+    xmlns:p="http://primefaces.org/ui"
+    xmlns:h="http://xmlns.jcp.org/jsf/html"
+    xmlns:f="http://xmlns.jcp.org/jsf/core"
+    xmlns:jsf="http://xmlns.jcp.org/jsf">
+
+    <p:panel header="Encuesta Salud Fondo Acción">
+
+        <h:form id = "Pre-ocupacional" rendered="#{!contentController.isPreoupationalReady}">
+            <p:growl id="growl" showDetail="true" sticky="true" />  
+            <h3><h:outputText value="Encuesta Condiciones de Salud"/></h3>
+            <p:panelGrid columns="4"  style="width: 100%">
+                <p:outputLabel value="Nombre"/>
+                <p:inputText value="#{UserBean.currentUser.name}" style="width: 100%"/>
+                <p:outputLabel value="Cargo"/>
+                <p:inputText value="#{UserBean.currentUser.position}" style="width: 100%"/>
+                <p:outputLabel value="Documento"/>
+                <p:inputText value="#{UserBean.currentUser.cc}" style="width: 100%"/>
+                <p:outputLabel value="Área"/>
+                <h:selectOneMenu  value="#{PreocupationalBean.areaSelect}" style="width: 100%">
+                    <f:selectItems value="#{constantesBean.areas}" var="areaa" itemLabel="#{areaa.area_nombre}" itemValue="#{areaa.area_id}" />
+                </h:selectOneMenu>
+
+                <p:outputLabel value="Celular"/>
+                <p:inputText value="#{UserBean.currentUser.number}" style="width: 100%"/>
+                <p:outputLabel value="Dirección"/>
+                <p:inputText value="#{UserBean.currentUser.adress}" style="width: 100%"/>
+            </p:panelGrid>
+            <hr/>
+            <div  style="width: 100%" align="center">
+                <p:outputLabel value="Personas con usted en casa" style="font-size: 20px"/>
+                <p:dataTable reflow="true" 
+                             emptyMessage="No ha agregado ningún integrante" 
+                             editable="true"  
+                             value="#{UserBean.currentUser.homePeoples}" 
+                             var="familiar" 
+                             id="familiars">   
+
+                    <p:ajax event="rowEdit" 
+                            update="familiars Pre-ocupacional:growl" 
+                            listener="#{HomePeopleBean.saveUpdate(familiar)}" />
+                    <p:ajax event="rowEditCancel" update="familiars" />
+
+                    <p:column headerText="Nombre">
+                        <p:cellEditor>
+                            <f:facet name="output">
+                                <p:outputLabel value="#{familiar.home_people_name}"/>
+                            </f:facet>
+                            <f:facet name="input">
+                                <p:inputText value="#{familiar.home_people_name}"/>
+                            </f:facet>
+                        </p:cellEditor>                                    
+                    </p:column>
+
+                    <p:column headerText="Marque Sí es mayor de 60 años, 
+                              presencia de antecedentes de enfermedades crónicas ó 
+                              es menor de 18 años " style="text-align: center">
+                        <p:cellEditor>
+                            <f:facet name="output">
+                                <p:selectBooleanCheckbox value="#{familiar.home_people_age}" disabled="true"/>
+                            </f:facet>
+                            <f:facet name="input">
+                                <p:selectBooleanCheckbox value="#{familiar.home_people_age}" />
+                            </f:facet>
+                        </p:cellEditor>           
+
+                    </p:column>
+
+                    <p:column headerText="EPS a la que está afiliado ">
+                        <p:cellEditor>
+                            <f:facet name="output"> <p:outputLabel value="#{familiar.home_people_eps}"/></f:facet>
+                            <f:facet name="input"> <p:inputText value="#{familiar.home_people_eps}"/></f:facet>
+                        </p:cellEditor>                                       
+                    </p:column>
+
+                    <p:column headerText="ARL  (Deje en blanco si no aplica)  ">
+                        <p:cellEditor>
+                            <f:facet name="output"> <p:outputLabel value="#{familiar.home_people_arl}"/></f:facet>
+                            <f:facet name="input"> <p:inputText value="#{familiar.home_people_arl}"/></f:facet>
+                        </p:cellEditor>
+                    </p:column>
+
+                    <p:column style="width:35px">
+                        <p:rowEditor />
+                    </p:column>
+
+                    <p:column style="width:50px">
+                        <p:commandButton value="-" action="#{HomePeopleBean.deleteFamiliar(familiar, UserBean.currentUser)}" update="familiars :Pre-ocupacional:growl"/>
+                    </p:column>
+                    <f:facet name="footer">
+                        <p:commandButton value="Agregar nuevo integrante" class="button" action="#{HomePeopleBean.addNewFamiliar(UserBean.currentUser)}" update="familiars :Pre-ocupacional:growl"/>
+                    </f:facet>
+                </p:dataTable>
+
+
+                <hr class="sidebar-divider my-0" style="padding-top: 20px"/>
+                <p:outputLabel value="Antecedentes médicos del trabajador(Marque los antecedentes que haya tenido)" />
+
+                <p:panelGrid columns="6" style="width: 100%">
+                    <p:outputLabel value="Antes"/>
+                    <p:outputLabel value="Actualmente"/>
+                    <p:outputLabel value="Antes"/>
+                    <p:outputLabel value="Actualmente"/>
+                    <p:outputLabel value="Antes"/>
+                    <p:outputLabel value="Actualmente"/>
+
+                    <p:selectBooleanCheckbox  itemLabel="" value="#{PreocupationalBean.preocupationalTest.preocupational_test_asma_antes}"/>
+                    <p:selectBooleanCheckbox  itemLabel="Asma" value="#{PreocupationalBean.preocupationalTest.preocupational_test_asma}"/>
+
+                    <p:selectBooleanCheckbox  itemLabel="" value="#{PreocupationalBean.preocupationalTest.preocupational_test_inmunosupresion_antes}"/>
+                    <p:selectBooleanCheckbox  itemLabel="Inmunosupresión" value="#{PreocupationalBean.preocupationalTest.preocupational_test_inmunopresion}"/>
+
+                    <p:selectBooleanCheckbox  itemLabel="" value="#{PreocupationalBean.preocupationalTest.preocupational_test_reumatologicas_antes}"/>
+                    <p:selectBooleanCheckbox  itemLabel="Enf. Reumatológicas" value="#{PreocupationalBean.preocupationalTest.preocupational_test_reumatologica}"/>
+
+                    <p:selectBooleanCheckbox  itemLabel="" value="#{PreocupationalBean.preocupationalTest.preocupational_test_epoc_antes}"/>
+                    <p:selectBooleanCheckbox  itemLabel="Enf. Pulmonas obstructiva crónica (EPOC)" value="#{PreocupationalBean.preocupationalTest.preocupational_test_epoc}"/>
+
+                    <p:selectBooleanCheckbox  itemLabel="" value="#{PreocupationalBean.preocupationalTest.preocupational_test_hipertension_antes}"/>
+                    <p:selectBooleanCheckbox  itemLabel="Hipertensión arterial" value="#{PreocupationalBean.preocupationalTest.preocupational_test_hipertension}"/>
+
+                    <p:selectBooleanCheckbox  itemLabel="" value="#{PreocupationalBean.preocupationalTest.preocupational_test_embarazo_antes}"/>
+                    <p:selectBooleanCheckbox  itemLabel="Embarazo" value="#{PreocupationalBean.preocupationalTest.preocupational_test_embarazo}"/>
+
+                    <p:selectBooleanCheckbox  itemLabel="" value="#{PreocupationalBean.preocupationalTest.preocupational_test_cardiovascular_antes}"/>
+                    <p:selectBooleanCheckbox  itemLabel="Enfermedades cardiovasculares" value="#{PreocupationalBean.preocupationalTest.preocupational_test_cardiovascular}"/>
+
+                    <p:selectBooleanCheckbox  itemLabel="" value="#{PreocupationalBean.preocupationalTest.preocupational_test_cancer_antes}"/>
+                    <p:selectBooleanCheckbox  itemLabel="Cáncer" value="#{PreocupationalBean.preocupationalTest.preocupational_test_cancer}"/>
+
+                    <p:selectBooleanCheckbox  itemLabel="" value="#{PreocupationalBean.preocupationalTest.preocupational_test_tabaquismo_antes}"/>
+                    <p:selectBooleanCheckbox  itemLabel="Tabaquísmo" value="#{PreocupationalBean.preocupationalTest.preocupational_test_tabaquismo}"/>
+
+                    <p:selectBooleanCheckbox  itemLabel="" value="#{PreocupationalBean.preocupationalTest.preocupational_test_diabetes_antes}"/>
+                    <p:selectBooleanCheckbox  itemLabel="Diabetes" value="#{PreocupationalBean.preocupationalTest.preocupational_test_diabetes}"/>
+
+                    <p:selectBooleanCheckbox  itemLabel="" value="#{PreocupationalBean.preocupationalTest.preocupational_test_obesidad_antes}"/>
+                    <p:selectBooleanCheckbox  itemLabel="Obesidad" value="#{PreocupationalBean.preocupationalTest.preocupational_test_obesidad}"/>
+
+                    <p:selectBooleanCheckbox  itemLabel="" value="#{PreocupationalBean.preocupationalTest.preocupational_test_alcoholismo_antes}"/>
+                    <p:selectBooleanCheckbox  itemLabel="Alcoholismo" value="#{PreocupationalBean.preocupationalTest.preocupational_test_alcoholismo}"/>
+
+                    <p:selectBooleanCheckbox  itemLabel="" value="#{PreocupationalBean.preocupationalTest.preocupational_test_renal_antes}"/>
+                    <p:selectBooleanCheckbox  itemLabel="Enfermedad renal crónica" value="#{PreocupationalBean.preocupationalTest.preocupational_test_renal}"/>
+
+                    <p:selectBooleanCheckbox  itemLabel="" value="#{PreocupationalBean.preocupationalTest.preocupational_test_desnutricion_antes}"/>
+                    <p:selectBooleanCheckbox  itemLabel="Desnutrición" value="#{PreocupationalBean.preocupationalTest.preocupational_test_desnutricion}"/>
+
+                    <p:selectBooleanCheckbox  itemLabel="" value="#{PreocupationalBean.preocupationalTest.preocupational_test_hepaticas_antes}"/>
+                    <p:selectBooleanCheckbox  itemLabel="Enf. Hepática" value="#{PreocupationalBean.preocupationalTest.preocupational_test_hepaticas}"/>
+
+                </p:panelGrid>
+                <p:panelGrid columns="2" style="width: 100%">
+                    <p:outputLabel value="En caso que presente otra enfermedad que no esté descrita, informe cual:" />
+                    <p:inputText style="width: 100%" value="#{PreocupationalBean.preocupationalTest.preocupational_test_otros_enfermedad}"/>
+                    <p:outputLabel value="Medicamentos que está tomando actualmente:" style="width: 100%"/>
+                    <p:inputText value="#{PreocupationalBean.preocupationalTest.preocupational_test_medicamentos}" style="width: 100%"/>
+                </p:panelGrid>
+                <hr class="sidebar-divider my-0"/>
+                <p:outputLabel value="SIGNOS Y SÍNTOMAS AL INGRESO Y VALORACIÓN : Marque los síntomas que haya presentado en los últimos 15 días " />
+
+                <p:panelGrid columns="3" style="width: 100%">
+
+                    <p:outputLabel value="TEMPERATURA CUANTIFICADA A LA HORA DE LA VALORACIÓN"/>
+                    <p:inputText />
+                    <p:outputLabel value="Se considera como un estado febril ( 37,1 a  37,9ºC)  Fiebre ( 38ºC en adelante)"/>
+                    <p:selectBooleanCheckbox itemLabel="Tos" value="#{PreocupationalBean.preocupationalTest.preocupational_test_tos}"/>
+                    <p:selectBooleanCheckbox itemLabel="Náuseas" value="#{PreocupationalBean.preocupationalTest.preocupational_test_nauseas}"/>
+                    <p:selectBooleanCheckbox itemLabel="Diarrea" value="#{PreocupationalBean.preocupationalTest.preocupational_test_diarrea}"/>
+                    <p:selectBooleanCheckbox itemLabel="Dificultad respiratoria" value="#{PreocupationalBean.preocupationalTest.preocupational_test_dificultad_respiratoria}"/>
+                    <p:selectBooleanCheckbox itemLabel="Vómito" value="#{PreocupationalBean.preocupationalTest.preocupational_test_vomito}"/>
+                    <p:selectBooleanCheckbox itemLabel="Dolor abdominal" value="#{PreocupationalBean.preocupationalTest.preocupational_test_dolor_abdominal}"/>
+                    <p:selectBooleanCheckbox itemLabel="Respiracion rápida" value="#{PreocupationalBean.preocupationalTest.preocupational_test_respiracion_rapida}"/>
+                    <p:selectBooleanCheckbox itemLabel="Dolor en el pecho" value="#{PreocupationalBean.preocupationalTest.preocupational_test_dolor_pecho}"/>
+                    <p:selectBooleanCheckbox itemLabel="Dolor de cabeza" value="#{PreocupationalBean.preocupationalTest.preocupational_test_dolor_cabeza}"/>
+                    <p:selectBooleanCheckbox itemLabel="Dolor de garganta" value="#{PreocupationalBean.preocupationalTest.preocupational_test_dolor_garganta}"/>
+                    <p:selectBooleanCheckbox itemLabel="Malestar general" value="#{PreocupationalBean.preocupationalTest.preocupational_test_malestar_general}"/>
+                    <p:selectBooleanCheckbox itemLabel="Escalofrío" value="#{PreocupationalBean.preocupationalTest.preocupational_test_escalofrio}"/>
+                    <p:selectBooleanCheckbox itemLabel="Cansancio muscular severo" value="#{PreocupationalBean.preocupationalTest.preocupational_test_cansancio_muscular}"/>
+                    <p:outputLabel/>
+                    <p:inputText  placeholder="Otros" value="#{PreocupationalBean.preocupationalTest.preocupational_test_otros_sintomas}"/>
+
+                </p:panelGrid>
+                <hr class="sidebar-divider my-0" style="padding-top: 20px"/>
+                <p:outputLabel value="SEGUIMIENTO DEL MEDIO EN QUE SE ENCUENTRA EL TRABAJADOR" />
+                <p:panelGrid columns="2">
+                    <p:outputLabel value="Marque si cumple con las condiciones"/>
+                    <p:outputLabel value="Observaciones"/>                                
+                    <p:selectBooleanCheckbox value="#{PreocupationalBean.preocupationalTest.preocupational_test_p1_boolean}" itemLabel="¿Durante el periodo de cuarentena le diagnosticaron COVID 19 o alguna enfermedad respiratoria?"/>
+                    <p:inputText value="#{PreocupationalBean.preocupationalTest.preocupational_test_p1_observation}"/>
+                    <p:selectBooleanCheckbox value="#{PreocupationalBean.preocupationalTest.preocupational_test_p2_boolean}" itemLabel="¿En el último mes ha asistido a centros hospitalarios o presentó alguna incapacidad?"/>
+                    <p:inputText value="#{PreocupationalBean.preocupationalTest.preocupational_test_p2_observation}"/>
+                    <p:selectBooleanCheckbox value="#{PreocupationalBean.preocupationalTest.preocupational_test_p3_boolean}" itemLabel=" ¿Algún miembro de su familia presentó  en los últimos 30 días síntomas asociados al  COVID 19?"/>
+                    <p:inputText value="#{PreocupationalBean.preocupationalTest.preocupational_test_p3_observation}"/>
+                    <p:selectBooleanCheckbox value="#{PreocupationalBean.preocupationalTest.preocupational_test_p4_boolean}" itemLabel=" ¿Tiene conocimiento de alguna persona cercana en su lugar de residencia, conjunto o barrio que haya sido diagnosticada con COVID 19?"/>
+                    <p:inputText value="#{PreocupationalBean.preocupationalTest.preocupational_test_p4_observation}"/>
+                    <p:selectBooleanCheckbox value="#{PreocupationalBean.preocupationalTest.preocupational_test_p5_boolean}" itemLabel="¿ Algún miembro de su familia está considerado como población vulnerable ( adultos mayores de 60 años, mujeres en embarazo o personas con antecedentes ?"/>
+                    <p:inputText value="#{PreocupationalBean.preocupationalTest.preocupational_test_p5_observation}"/>
+                    <p:selectBooleanCheckbox value="#{PreocupationalBean.preocupationalTest.preocupational_test_p6_boolean}" itemLabel="¿Durante el periodo de cuarentena cumplió las recomendaciones establecidas por las autoridades?"/>
+                    <p:inputText value="#{PreocupationalBean.preocupationalTest.preocupational_test_p6_observation}"/>
+                    <p:selectBooleanCheckbox value="#{PreocupationalBean.preocupationalTest.preocupational_test_p7_boolean}" itemLabel="¿ Ha viajado en el último mes?"/>
+                    <p:inputText value="#{PreocupationalBean.preocupationalTest.preocupational_test_p7_observation}"/>
+                    <p:selectBooleanCheckbox value="#{PreocupationalBean.preocupationalTest.preocupational_test_p8_boolean}" itemLabel=" ¿Se considera población vulnerable?"/>
+                    <p:inputText value="#{PreocupationalBean.preocupationalTest.preocupational_test_p8_observation}"/>
+                </p:panelGrid>
+
+                <hr class="sidebar-divider my-0" style="padding-top: 20px"/>
+                <p:outputLabel value="TRANSPORTE" />
+                <p:panelGrid columns="2" style="width: 100%">
+                    <p:outputLabel  value="1.- ¿Qué transporte(s) usa para movilizarse hacia la oficina y casa?" style="width: 100%"/>
+                    <p:inputText value="#{PreocupationalBean.preocupationalTest.preocupational_test_p1_transport}" style="width: 100%"/>
+                    <p:outputLabel value="2.- ¿Cuál medio de transporte alternativo podría usar? "/>
+                    <p:inputText value="#{PreocupationalBean.preocupationalTest.preocupational_test_p2_transport}" style="width: 100%"/>
+                </p:panelGrid>
+                <hr class="sidebar-divider my-0" style="padding-top: 20px"/>
+                <p:outputLabel value="COMPROMISOS ADQUIRIDOS"/>
+                <p:panelGrid columns="2">
+                    <p:outputLabel value="MEDIDAS DE PREVENCIÓN"/>
+                    <p:outputLabel value="ACCIONES "/>
+                    <p:outputLabel value="DE LA EMPRESA"/>
+                    <p:outputLabel value="La empresa se compromete a realizar las acciones de prevención y promoción de la salud establecidas en la Resolución 0666 del 24 de abril del 2020 y en el Protocolo de Bioseguridad de Fondo Acción para garantizar una operación segura  en el lugar de trabajo. Realizar  la valoración pre operacional y el seguimiento  de todos los colaboradores  y visitantes que ingresen a las áreas."/>
+                    <p:outputLabel value="DEL TRABAJADOR "/>
+                    <p:outputLabel value="El trabajador se compromete a adoptar una cultura de autocuidado , dar repuesta a los seguimientos sin ocultar información y dando datos certeros, y cumplir con  todos los procedimientos de prevencion y promocion de la salud establecidos en la  la Resolución 0666 del 24 de abril del 2020 y en el Protocolo de Bioseguridad de Fondo Acción"/>
+                </p:panelGrid>
+                <br/>
+                <p:selectBooleanCheckbox itemLabel="Acepto" value="#{PreocupationalBean.terminos}">
+                    <p:ajax update="btns growl" listener="#{PreocupationalBean.aceptarTerminos()}"/>
+                </p:selectBooleanCheckbox>
+                <br/>
+                <br/>
+                <div jsf:id="btns">
+                    <p:commandButton id="bt1s" rendered="#{PreocupationalBean.terminos}" value="ENVIAR INFORMACIÓN" class="button" action="#{PreocupationalBean.guardarInfor(UserBean.currentUser)}" ajax="false"/>
+                    <p:commandButton id="bt2s" rendered="#{!PreocupationalBean.terminos}" disabled="true" value="ENVIAR INFORMACIÓN" class="button" action="#{PreocupationalBean.guardarInfor(UserBean.currentUser)}" ajax="false"/>
+                </div>
+            </div>
+        </h:form>
+    </p:panel>
+</ui:composition>

@@ -1,0 +1,222 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition
+    xmlns="http://www.w3.org/1999/xhtml"
+    xmlns:ui="http://java.sun.com/jsf/facelets"
+    xmlns:p="http://primefaces.org/ui"
+    xmlns:h="http://xmlns.jcp.org/jsf/html"
+    xmlns:f="http://xmlns.jcp.org/jsf/core"
+    xmlns:jsf="http://xmlns.jcp.org/jsf">
+
+    <p:panel header="Mi Perfil" style="padding-bottom: 100px" rendered="#{contentController.activePage == 1 and contentController.isPreoupationalReady}">
+        <h:form id = "MiPerfil">
+            <p:growl id="growl1" showDetail="true" sticky="true" />  
+            <h1>#{UserBean.currentUser.name}</h1>
+            <hr class="sidebar-divider my-0"/>
+            <h2>Datos personales</h2>
+            <p:panelGrid columns="4"  style="width: 100%">
+                <p:outputLabel value="Cargo"/>
+                <p:outputLabel value="#{UserBean.currentUser.position}"/>
+                <p:outputLabel value="Documento"/>
+                <p:outputLabel value="#{UserBean.currentUser.cc}"/>
+                <p:outputLabel value="Área"/>
+                <p:outputLabel value="#{UserBean.currentUser.area_id.area_nombre}"/>
+                <p:outputLabel value="Celular"/>
+                <p:outputLabel value="#{UserBean.currentUser.number}"/>
+                <p:outputLabel value="Dirección"/>
+                <p:outputLabel value="#{UserBean.currentUser.adress}"/>
+            </p:panelGrid>
+            <p:commandButton value="Guardar cambios" class="button" update="MiPerfil" style="width: 30% !important" action="#{miProfileBean.guardarInfor(UserBean.currentUser)}" />
+            <hr class="sidebar-divider my-0" />
+            <h2 style="padding-top: 50px">Personas con usted en casa</h2>
+            <p:outputLabel value="Personas con usted en casa"/>
+            <p:dataTable emptyMessage="No ha agregado ninguno" editable="true"  value="#{UserBean.currentUser.homePeoples}" var="familiar" id="familiars">   
+
+                <p:ajax event="rowEdit" update="familiars MiPerfil:growl1" listener="#{HomePeopleBean.saveUpdate(familiar)}" />
+                <p:ajax event="rowEditCancel" update="familiars" />
+
+                <p:column headerText="Nombre">
+                    <p:cellEditor>
+                        <f:facet name="output"><p:outputLabel value="#{familiar.home_people_name}"/></f:facet>
+                        <f:facet name="input"><p:inputText value="#{familiar.home_people_name}"/></f:facet>
+                    </p:cellEditor>                                    
+                </p:column>
+
+                <p:column headerText="Marque Sí es  mayor de 60 años,  presencia de antecedentes de enfermedades crónicas ó  NNA > de 18 años ">
+                    <p:cellEditor>
+                        <f:facet name="output"><p:selectBooleanCheckbox value="#{familiar.home_people_age}" disabled="true"/></f:facet>
+                        <f:facet name="input"><p:selectBooleanCheckbox value="#{familiar.home_people_age}" /></f:facet>
+                    </p:cellEditor> 
+                </p:column>
+
+                <p:column headerText="EPS a la que esta afiliado ">
+                    <p:cellEditor>
+                        <f:facet name="output"> <p:outputLabel value="#{familiar.home_people_eps}"/></f:facet>
+                        <f:facet name="input"> <p:inputText value="#{familiar.home_people_eps}"/></f:facet>
+                    </p:cellEditor>                                       
+                </p:column>
+
+                <p:column headerText="ARL  (Deje en blanco si no aplica)  ">
+                    <p:cellEditor>
+                        <f:facet name="output"> <p:outputLabel value="#{familiar.home_people_arl}"/></f:facet>
+                        <f:facet name="input"> <p:inputText value="#{familiar.home_people_arl}"/></f:facet>
+                    </p:cellEditor>
+                </p:column>
+
+                <p:column style="width:35px">
+                    <p:rowEditor />
+                </p:column>
+
+                <p:column style="width:50px">
+                    <p:commandButton value="-" action="#{HomePeopleBean.deleteFamiliar(familiar, UserBean.currentUser)}" update="familiars :MiPerfil:growl1"/>
+                </p:column>
+                <f:facet name="footer">
+                    <p:commandButton value="Agregar nuevo integrate" class="button" action="#{HomePeopleBean.addNewFamiliar(UserBean.currentUser)}" update="familiars :MiPerfil:growl1"/>
+                </f:facet>
+            </p:dataTable>
+
+            <hr class="sidebar-divider my-0" style="padding-top: 20px"/>
+            <p:outputLabel value="Antecedentes médicos del trabajador(Marque los antecedentes que haya tenido)" />
+
+            <p:panelGrid columns="6" style="width: 100%">
+                <p:outputLabel value="Antes"/>
+                <p:outputLabel value="Actualmente"/>
+                <p:outputLabel value="Antes"/>
+                <p:outputLabel value="Actualmente"/>
+                <p:outputLabel value="Antes"/>
+                <p:outputLabel value="Actualmente"/>
+
+                <p:selectBooleanCheckbox disabled="true" itemLabel="" value="#{UserBean.obtenerPreo().preocupational_test_asma_antes}"/>
+                <p:selectBooleanCheckbox  disabled="true" itemLabel="Asma" value="#{UserBean.obtenerPreo().preocupational_test_asma}"/>
+
+                <p:selectBooleanCheckbox disabled="true" itemLabel="" value="#{UserBean.obtenerPreo().preocupational_test_inmunosupresion_antes}"/>
+                <p:selectBooleanCheckbox disabled="true" itemLabel="Inmunosupresión" value="#{UserBean.obtenerPreo().preocupational_test_inmunopresion}"/>
+
+                <p:selectBooleanCheckbox disabled="true" itemLabel="" value="#{UserBean.obtenerPreo().preocupational_test_reumatologicas_antes}"/>
+                <p:selectBooleanCheckbox disabled="true" itemLabel="Enf. Reumatológicas" value="#{UserBean.obtenerPreo().preocupational_test_reumatologica}"/>
+
+                <p:selectBooleanCheckbox disabled="true" itemLabel="" value="#{UserBean.obtenerPreo().preocupational_test_epoc_antes}"/>
+                <p:selectBooleanCheckbox disabled="true" itemLabel="Enf. Pulmonas obstructiva crónica (EPOC)" value="#{UserBean.obtenerPreo().preocupational_test_epoc}"/>
+
+                <p:selectBooleanCheckbox disabled="true" itemLabel="" value="#{UserBean.obtenerPreo().preocupational_test_hipertension_antes}"/>
+                <p:selectBooleanCheckbox disabled="true" itemLabel="Hipertensión arterial" value="#{UserBean.obtenerPreo().preocupational_test_hipertension}"/>
+
+                <p:selectBooleanCheckbox disabled="true" itemLabel="" value="#{UserBean.obtenerPreo().preocupational_test_embarazo_antes}"/>
+                <p:selectBooleanCheckbox disabled="true" itemLabel="Embarazo" value="#{UserBean.obtenerPreo().preocupational_test_embarazo}"/>
+
+                <p:selectBooleanCheckbox disabled="true" itemLabel="" value="#{UserBean.obtenerPreo().preocupational_test_cardiovascular_antes}"/>
+                <p:selectBooleanCheckbox disabled="true" itemLabel="Enfermedades cardiovasculares" value="#{UserBean.obtenerPreo().preocupational_test_cardiovascular}"/>
+
+                <p:selectBooleanCheckbox disabled="true" itemLabel="" value="#{UserBean.obtenerPreo().preocupational_test_cancer_antes}"/>
+                <p:selectBooleanCheckbox disabled="true" itemLabel="Cáncer" value="#{UserBean.obtenerPreo().preocupational_test_cancer}"/>
+
+                <p:selectBooleanCheckbox disabled="true" itemLabel="" value="#{UserBean.obtenerPreo().preocupational_test_tabaquismo_antes}"/>
+                <p:selectBooleanCheckbox disabled="true" itemLabel="Tabaquísmo" value="#{UserBean.obtenerPreo().preocupational_test_tabaquismo}"/>
+
+                <p:selectBooleanCheckbox disabled="true" itemLabel="" value="#{UserBean.obtenerPreo().preocupational_test_diabetes_antes}"/>
+                <p:selectBooleanCheckbox disabled="true" itemLabel="Diabetes" value="#{UserBean.obtenerPreo().preocupational_test_diabetes}"/>
+
+                <p:selectBooleanCheckbox disabled="true" itemLabel="" value="#{UserBean.obtenerPreo().preocupational_test_obesidad_antes}"/>
+                <p:selectBooleanCheckbox disabled="true" itemLabel="Obesidad" value="#{UserBean.obtenerPreo().preocupational_test_obesidad}"/>
+
+                <p:selectBooleanCheckbox disabled="true" itemLabel="" value="#{UserBean.obtenerPreo().preocupational_test_alcoholismo_antes}"/>
+                <p:selectBooleanCheckbox disabled="true" itemLabel="Alcholismo" value="#{UserBean.obtenerPreo().preocupational_test_alcoholismo}"/>
+
+                <p:selectBooleanCheckbox disabled="true" itemLabel="" value="#{UserBean.obtenerPreo().preocupational_test_renal_antes}"/>
+                <p:selectBooleanCheckbox disabled="true" itemLabel="Enfermedad renal crónica" value="#{UserBean.obtenerPreo().preocupational_test_renal}"/>
+
+                <p:selectBooleanCheckbox disabled="true" itemLabel="" value="#{UserBean.obtenerPreo().preocupational_test_desnutricion_antes}"/>
+                <p:selectBooleanCheckbox disabled="true" itemLabel="Desnutrición" value="#{UserBean.obtenerPreo().preocupational_test_desnutricion}"/>
+
+                <p:selectBooleanCheckbox disabled="true" itemLabel="" value="#{UserBean.obtenerPreo().preocupational_test_hepaticas_antes}"/>
+                <p:selectBooleanCheckbox disabled="true" itemLabel="Enf. Hepática" value="#{UserBean.obtenerPreo().preocupational_test_hepaticas}"/>
+
+
+            </p:panelGrid>
+            <p:panelGrid columns="2" style="width: 100%">
+                <p:outputLabel value="En caso que presente otra enfermedad que no esté descrita, informe cuál?:" />
+                <p:outputLabel style="width: 100%" value="#{UserBean.obtenerPreo().preocupational_test_otros_enfermedad}"/>
+                <p:outputLabel value="Medicamentos que está tomando actualmente:"/>
+                <p:inputText value="#{UserBean.obtenerPreo().preocupational_test_medicamentos}"/>
+            </p:panelGrid>
+            <hr class="sidebar-divider my-0"/>
+
+            <hr class="sidebar-divider my-0" style="padding-top: 20px"/>
+            <p:outputLabel value="SIGNOS Y SINTOMAS AL INGRESO Y VALORACION :  Marque con Sí los  que haya  presentado en los últimos 15 días " />
+            <hr class="sidebar-divider my-0"/>                         
+
+            <p:panelGrid columns="3" style="width: 100%">
+
+                <p:outputLabel value="TEMPERATURA CUANTIFICADA A LA HORA DE LA VALORACIÓN"/>
+                <p:outputLabel />
+                <p:outputLabel value="Se considera como un estado febril ( 37,1 a  37,9ºC)  Fiebre ( 38ºC en adelante)"/>
+                <p:selectBooleanCheckbox disabled="true" itemLabel="Tos" value="#{UserBean.obtenerPreo().preocupational_test_tos}"/>
+                <p:selectBooleanCheckbox disabled="true" itemLabel="Náuseas" value="#{UserBean.obtenerPreo().preocupational_test_nauseas}"/>
+                <p:selectBooleanCheckbox disabled="true" itemLabel="Diarrea" value="#{UserBean.obtenerPreo().preocupational_test_diarrea}"/>
+                <p:selectBooleanCheckbox disabled="true" itemLabel="Dificultad respiratoria" value="#{UserBean.obtenerPreo().preocupational_test_dificultad_respiratoria}"/>
+                <p:selectBooleanCheckbox disabled="true" itemLabel="Vómito" value="#{UserBean.obtenerPreo().preocupational_test_vomito}"/>
+                <p:selectBooleanCheckbox disabled="true" itemLabel="Dolor abdominal" value="#{UserBean.obtenerPreo().preocupational_test_dolor_abdominal}"/>
+                <p:selectBooleanCheckbox disabled="true" itemLabel="Respiracion rápida" value="#{UserBean.obtenerPreo().preocupational_test_respiracion_rapida}"/>
+                <p:selectBooleanCheckbox disabled="true" itemLabel="Dolor en el pecho" value="#{UserBean.obtenerPreo().preocupational_test_dolor_pecho}"/>
+                <p:selectBooleanCheckbox disabled="true" itemLabel="Dolor de cabeza" value="#{UserBean.obtenerPreo().preocupational_test_dolor_cabeza}"/>
+                <p:selectBooleanCheckbox disabled="true" itemLabel="Dolor de garganta" value="#{UserBean.obtenerPreo().preocupational_test_dolor_garganta}"/>
+                <p:selectBooleanCheckbox disabled="true" itemLabel="Malestar general" value="#{UserBean.obtenerPreo().preocupational_test_malestar_general}"/>
+                <p:selectBooleanCheckbox disabled="true" itemLabel="Escalofrío" value="#{UserBean.obtenerPreo().preocupational_test_escalofrio}"/>
+                <p:selectBooleanCheckbox disabled="true" itemLabel="Cansancio muscular severo" value="#{UserBean.obtenerPreo().preocupational_test_cansancio_muscular}"/>
+                <p:outputLabel/>
+                <p:outputLabel value="#{UserBean.obtenerPreo().preocupational_test_otros_sintomas}"/>
+
+            </p:panelGrid>
+
+
+            <hr class="sidebar-divider my-0" style="padding-top: 20px"/>
+            <p:outputLabel value="SEGUIMIENTO DEL MEDIO EN QUE SE ENCUENTRA EL TRABAJADOR" />
+            <hr class="sidebar-divider my-0"/>
+            <p:panelGrid columns="2">
+                <p:outputLabel value="Marque si cumple con las condiciones"/>
+                <p:outputLabel value="Observaciones"/>                                
+                <p:selectBooleanCheckbox disabled="true" value="#{UserBean.obtenerPreo().preocupational_test_p1_boolean}" itemLabel="¿Durante el periodo de cuarentena le diagnosticaron COVID 19 o alguna enfermedad respiratoria?"/>
+                <p:outputLabel value="#{UserBean.obtenerPreo().preocupational_test_p1_observation}"/>
+                <p:selectBooleanCheckbox disabled="true" value="#{UserBean.obtenerPreo().preocupational_test_p2_boolean}" itemLabel="¿En el último mes ha asistido a centros hospitalarios o presentó alguna incapacidad?"/>
+                <p:outputLabel value="#{UserBean.obtenerPreo().preocupational_test_p2_observation}"/>
+                <p:selectBooleanCheckbox disabled="true" value="#{UserBean.obtenerPreo().preocupational_test_p3_boolean}" itemLabel=" ¿Algún miembro de su familia presentó  en los últimos 30 días síntomas asociados al  COVID 19?"/>
+                <p:outputLabel value="#{UserBean.obtenerPreo().preocupational_test_p3_observation}"/>
+                <p:selectBooleanCheckbox disabled="true" value="#{UserBean.obtenerPreo().preocupational_test_p4_boolean}" itemLabel=" ¿Tiene conocimiento de alguna persona cercana en su lugar de residencia, conjunto o barrio que haya sido diagnosticada con COVID 19?"/>
+                <p:outputLabel value="#{UserBean.obtenerPreo().preocupational_test_p4_observation}"/>
+                <p:selectBooleanCheckbox disabled="true" value="#{UserBean.obtenerPreo().preocupational_test_p5_boolean}" itemLabel="¿ Algún miembro de su familia está considerado como población vulnerable ( adultos mayores de 60 años, mujeres en embarazo o personas con antecedentes ?"/>
+                <p:outputLabel value="#{UserBean.obtenerPreo().preocupational_test_p5_observation}"/>
+                <p:selectBooleanCheckbox disabled="true" value="#{UserBean.obtenerPreo().preocupational_test_p6_boolean}" itemLabel="¿Durante el periodo de cuarentena cumplió las recomendaciones establecidas por las autoridades?"/>
+                <p:outputLabel value="#{UserBean.obtenerPreo().preocupational_test_p6_observation}"/>
+                <p:selectBooleanCheckbox disabled="true" value="#{UserBean.obtenerPreo().preocupational_test_p7_boolean}" itemLabel="¿ Ha viajado en el último mes?"/>
+                <p:outputLabel value="#{UserBean.obtenerPreo().preocupational_test_p7_observation}"/>
+                <p:selectBooleanCheckbox disabled="true" value="#{UserBean.obtenerPreo().preocupational_test_p8_boolean}" itemLabel=" ¿Se considera población vulnerable?"/>
+                <p:outputLabel value="#{UserBean.obtenerPreo().preocupational_test_p8_observation}"/>
+            </p:panelGrid>
+
+            <hr class="sidebar-divider my-0" style="padding-top: 20px"/>
+            <p:outputLabel value="TRANSPORTE" />
+            <hr class="sidebar-divider my-0"/>
+            <p:panelGrid columns="2" style="width: 100%">
+                <p:outputLabel  value="1.- ¿Qué transporte(s) usa para movilizarse hacia la oficina y casa?"/>
+                <p:outputLabel value="#{UserBean.obtenerPreo().preocupational_test_p1_transport}"/>
+                <p:outputLabel value="2.- ¿Cuál medio de transporte alternativo podría usar? "/>
+                <p:outputLabel value="#{UserBean.obtenerPreo().preocupational_test_p2_transport}"/>
+            </p:panelGrid>
+            <hr class="sidebar-divider my-0" style="padding-top: 20px"/>
+            <p:outputLabel value="COMPROMISOS ADQUIRIDOS"/>
+            <hr class="sidebar-divider my-0"/>
+            <p:panelGrid columns="2">
+                <p:outputLabel value="MEDIDAS DE PREVENCIÓN"/>
+                <p:outputLabel value="ACCIONES "/>
+                <p:outputLabel value="DE LA EMPRESA"/>
+                <p:outputLabel value="La empresa se compromete a realizar las acciones de prevención y promoción de la salud establecidas en la Resolución 0666 del 24 de abril del 2020 y en el Protocolo de Bioseguridad de Fondo Acción para garantizar una operación segura  en el lugar de trabajo. Realizar  la valoración pre operacional y el seguimiento  de todos los colaboradores  y visitantes que ingresen a las áreas."/>
+                <p:outputLabel value="DEL TRABAJADOR "/>
+                <p:outputLabel value="El trabajador se compromete a adoptar una cultura de autocuidado , dar repuesta a los seguimientos sin ocultar información y dando datos certeros, y cumplir con  todos los procedimientos de prevencion y promocion de la salud establecidos en la  la Resolución 0666 del 24 de abril del 2020 y en el Protocolo de Bioseguridad de Fondo Acción"/>
+            </p:panelGrid>
+
+
+
+        </h:form>
+    </p:panel>
+</ui:composition>
+

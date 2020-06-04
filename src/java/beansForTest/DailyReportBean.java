@@ -14,7 +14,6 @@ import java.util.Date;
 import javax.ejb.EJB;
 import javax.faces.bean.ManagedBean;
 import javax.faces.view.ViewScoped;
-import javax.inject.Named;
 
 /**
  *
@@ -43,6 +42,7 @@ public class DailyReportBean implements Serializable{
         newDailyReport.setDaily_report_date(new Date());
         System.out.println("hour:" +newDailyReport.getDaily_report_date().getHours() );
         newDailyReport.setDaily_report_user_id(users);
+        newDailyReport.setDaily_report_user_fever(36.0);
         if (dailyRepotFacade.SaveDailyReport(newDailyReport)) {
             users.getDailyReports().add(newDailyReport);
         } else {

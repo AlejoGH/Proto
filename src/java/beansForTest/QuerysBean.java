@@ -22,32 +22,39 @@ import javax.inject.Named;
  * @author ncabrejo
  */
 @ViewScoped
-
 @ManagedBean(name = "QuerysBean")
 public class QuerysBean implements Serializable {
 
     private List<NotResolveToday> notResolveTodays;
 
+    private List<NotResolveToday> notResolveFirstForm;
+    
     @EJB
     QuerysFacade querysFacade;
 
     @PostConstruct
     public void init() {
-
+        notResolveTodays = loadNotResolveTodays();
+        notResolveFirstForm = loadNotResolveFirstForm();
     }
 
-    public void loadNotResolveTodays() {
+    public List<NotResolveToday> loadNotResolveTodays() {
 
         HashMap hm = new HashMap();
         Date today = new Date();
         hm.put("date", today.getYear() + 1900 + "-" + today.getMonth() + 1 + "-" + today.getDate());
         String query = "SELECT c.user_id as user_id, c.name as name FROM Users c WHERE c.user_id "
                 + "NOT IN (SELECT b.daily_report_user_id FROM DailyReport b WHERE DATE(b.daily_report_date) = current_date())";
-        notResolveTodays =  querysFacade.runListQuery(null, query);
-        if(notResolveTodays != null){
-            System.out.println(notResolveTodays.size()+"+---");
-           
-        }
+        return  querysFacade.runListQuery(null, query);
+
+    }
+    
+        public List<NotResolveToday> loadNotResolveFirstForm() {
+
+        String query = "SELECT c.user_id as user_id, c.name as name FROM Users c WHERE c.user_id "
+                + "NOT IN (SELECT b.preocupational_test_user FROM PreocupationalTest b)";
+        return  querysFacade.runListQuery(null, query);
+
     }
 
     /**
@@ -62,6 +69,20 @@ public class QuerysBean implements Serializable {
      */
     public void setNotResolveTodays(List<NotResolveToday> notResolveTodays) {
         this.notResolveTodays = notResolveTodays;
+    }
+
+    /**
+     * @return the notResolveFirstForm
+     */
+    public List<NotResolveToday> getNotResolveFirstForm() {
+        return notResolveFirstForm;
+    }
+
+    /**
+     * @param notResolveFirstForm the notResolveFirstForm to set
+     */
+    public void setNotResolveFirstForm(List<NotResolveToday> notResolveFirstForm) {
+        this.notResolveFirstForm = notResolveFirstForm;
     }
 
 }

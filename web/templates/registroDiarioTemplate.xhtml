@@ -1,0 +1,136 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition
+    xmlns="http://www.w3.org/1999/xhtml"
+    xmlns:ui="http://java.sun.com/jsf/facelets"
+    xmlns:p="http://primefaces.org/ui"
+    xmlns:h="http://xmlns.jcp.org/jsf/html"
+    xmlns:f="http://xmlns.jcp.org/jsf/core"
+    xmlns:jsf="http://xmlns.jcp.org/jsf">
+
+    <p:panel style="padding-bottom: 100px"
+             header="Reporte Diario de Condiciones de Salud" 
+             rendered="#{contentController.activePage == 2}">
+        <h:form id = "RegDiario" >
+            <p:growl id="growl2" showDetail="true" sticky="true" /> 
+            <p:outputLabel value="#{UserBean.currentUser.name}" 
+                           style="font-weight:bold; color: #000"/>
+            <br/>
+            <p:commandButton class="button"
+                             value="Agregar Registro" 
+                             action="#{dailyReportBean.addNewDailyReport(UserBean.currentUser)}" 
+                             update="reports RegDiario:growl2"/>
+            <p:dataTable value="#{UserBean.currentUser.dailyReports}" 
+                         paginator="true" rows="10" sortBy="#{dailyReport.daily_report_date}" 
+                         sortOrder="descending" emptyMessage="No hay registros" 
+                         editable="true" var="dailyReport" id="reports">
+                <p:ajax event="rowEdit" update="reports RegDiario:growl2" listener="#{dailyReportBean.saveUpdate(dailyReport)}" />
+                <p:ajax event="rowEditCancel" update="reports" />
+
+                <p:columnGroup type="header" >
+                    <p:row>
+                        <p:column colspan="8" headerText="Control de Temperatura y Síntomas:  Marque si ha presentado alguno de estos síntomas en las últimas 24 horas." />
+                        <p:column colspan="3" headerText="Marque a quien informó estos síntomas" />
+                    </p:row>
+
+                    <p:row>
+                        <p:column headerText="Fecha"/>
+                        <p:column headerText="Temperatura"/>
+                        <p:column headerText="Tos"/>
+                        <p:column headerText="Cansancio extremo"/>
+                        <p:column headerText="Secreción nasal"/>
+                        <p:column headerText="Dificultad para respirar"/>
+                        <p:column headerText="Dolor Garganta"/>
+                        <p:column headerText="Otros Síntomas"/>
+                        <p:column headerText="CoronaAPP"/>
+                        <p:column headerText="EPS"/>
+                        <p:column headerText="Secretaría de Salud"/>
+                        <p:column headerText=""/>
+                    </p:row>
+                </p:columnGroup>
+
+
+                <p:column headerText="Fecha" >
+                    <p:cellEditor>
+                        <f:facet name="output"> 
+                            <p:outputLabel value="#{dailyReport.daily_report_date.date} / #{dailyReport.daily_report_date.month+1} / #{dailyReport.daily_report_date.year+1900}"/>
+                            <p:outputLabel  value="#{dailyReport.daily_report_date.hours} : #{dailyReport.daily_report_date.minutes} :#{dailyReport.daily_report_date.seconds}"/>    
+                        </f:facet>
+                        <f:facet name="input"> 
+                            <p:outputLabel value="#{dailyReport.daily_report_date}" style="color: #000"/>
+                        </f:facet>
+                    </p:cellEditor>
+                </p:column>
+                <p:column headerText="Temperatura">
+                    <p:cellEditor>
+                        <f:facet name="output"> <p:outputLabel value="#{dailyReport.daily_report_user_fever}"/></f:facet>
+                        <f:facet name="input"> <p:inputText value="#{dailyReport.daily_report_user_fever}"/></f:facet>
+                    </p:cellEditor>
+
+                </p:column>
+                <p:column headerText="Tos">
+                    <p:cellEditor>
+                        <f:facet name="output"> <p:selectBooleanCheckbox value="#{dailyReport.daily_report_user_tos}" disabled="true"/></f:facet>
+                        <f:facet name="input"> <p:selectBooleanCheckbox value="#{dailyReport.daily_report_user_tos}" /></f:facet>
+                    </p:cellEditor>
+                </p:column>
+                <p:column headerText="Cansancio extremo">
+                    <p:cellEditor>
+                        <f:facet name="output"> <p:selectBooleanCheckbox value="#{dailyReport.daily_report_user_casancio}" disabled="true"/></f:facet>
+                        <f:facet name="input"> <p:selectBooleanCheckbox value="#{dailyReport.daily_report_user_casancio}" /></f:facet>
+                    </p:cellEditor>
+
+                </p:column>
+                <p:column headerText="Secreción nasal">
+                    <p:cellEditor>
+                        <f:facet name="output"> <p:selectBooleanCheckbox value="#{dailyReport.daily_report_user_secrecion_nasal}" disabled="true"/></f:facet>
+                        <f:facet name="input"> <p:selectBooleanCheckbox value="#{dailyReport.daily_report_user_secrecion_nasal}" /></f:facet>
+                    </p:cellEditor>
+
+                </p:column>
+                <p:column headerText="Dificultad para respirar">
+                    <p:cellEditor>
+                        <f:facet name="output"> <p:selectBooleanCheckbox value="#{dailyReport.daily_report_user_dificultad_respirar}" disabled="true"/></f:facet>
+                        <f:facet name="input"> <p:selectBooleanCheckbox value="#{dailyReport.daily_report_user_dificultad_respirar}" /></f:facet>
+                    </p:cellEditor>
+                </p:column>
+                <p:column headerText="Dolor Garganta">
+                    <p:cellEditor>
+                        <f:facet name="output"> <p:selectBooleanCheckbox value="#{dailyReport.daily_report_user_dolor_garganta}" disabled="true"/></f:facet>
+                        <f:facet name="input"> <p:selectBooleanCheckbox value="#{dailyReport.daily_report_user_dolor_garganta}" /></f:facet>
+                    </p:cellEditor>
+                </p:column>
+                <p:column headerText="Otros Síntomas">
+                    <p:cellEditor>
+                        <f:facet name="output"> <p:outputLabel value="#{dailyReport.daily_report_user_otros_sintomas}"/></f:facet>
+                        <f:facet name="input"> <p:inputText value="#{dailyReport.daily_report_user_otros_sintomas}"/></f:facet>
+                    </p:cellEditor>
+                </p:column>
+                <p:column headerText="CoronaAPP">
+                    <p:cellEditor>
+                        <f:facet name="output"> <p:selectBooleanCheckbox value="#{dailyReport.daily_report_user_corona_advice}" disabled="true"/></f:facet>
+                        <f:facet name="input"> <p:selectBooleanCheckbox value="#{dailyReport.daily_report_user_corona_advice}" /></f:facet>
+                    </p:cellEditor>
+                </p:column>
+                <p:column headerText="EPS">
+                    <p:cellEditor>
+                        <f:facet name="output"> <p:selectBooleanCheckbox value="#{dailyReport.daily_report_user_eps_advice}" disabled="true"/></f:facet>
+                        <f:facet name="input"> <p:selectBooleanCheckbox value="#{dailyReport.daily_report_user_eps_advice}" /></f:facet>
+                    </p:cellEditor>
+                </p:column>
+                <p:column headerText="Secretaría de Salud">
+                    <p:cellEditor>
+                        <f:facet name="output"> <p:selectBooleanCheckbox value="#{dailyReport.daily_report_user_secretaria_advice}" disabled="true"/></f:facet>
+                        <f:facet name="input"> <p:selectBooleanCheckbox value="#{dailyReport.daily_report_user_secretaria_advice}" /></f:facet>
+                    </p:cellEditor>
+                </p:column>
+                <p:column style="width:35px">
+                    <p:rowEditor />
+                </p:column>
+            </p:dataTable>
+
+        </h:form>
+    </p:panel>
+
+</ui:composition>
+

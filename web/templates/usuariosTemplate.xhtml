@@ -1,0 +1,36 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition
+    xmlns="http://www.w3.org/1999/xhtml"
+    xmlns:ui="http://java.sun.com/jsf/facelets"
+    xmlns:p="http://primefaces.org/ui"
+    xmlns:h="http://xmlns.jcp.org/jsf/html"
+    xmlns:f="http://xmlns.jcp.org/jsf/core"
+    >
+    <h:head>
+        <h:outputStylesheet library="css" name="styles.css"/>
+    </h:head>
+
+    <h:form id = "CrearUsuario" rendered="#{contentController.activePage == 5}">
+        <p:growl id="growl2" showDetail="true" sticky="true" />  
+        <p:outputLabel value="Nombre completo"/>
+        <p:inputText value="#{usersManagementBean.newUser.name}"/>
+        <p:outputLabel value="Usuario"/>
+        <p:inputText value="#{usersManagementBean.newUser.nickname}"/>
+        <p:outputLabel value="Identifiación"/>
+        <p:inputText value="#{usersManagementBean.newUser.cc}"/>
+        <p:outputLabel value="Rol"/>
+        <h:selectOneMenu value="#{usersManagementBean.rol_id}">
+            <f:selectItems value="#{constantesBean.roles}" var="rol" itemLabel="#{rol.rol_name}" itemValue="#{rol.rol_id}"/>
+        </h:selectOneMenu>
+        <p:outputLabel value="Area"/>
+        <h:selectOneMenu value="#{usersManagementBean.area_id}">
+            <f:selectItems value="#{constantesBean.areas}" var="area" itemLabel="#{area.area_nombre}" itemValue="#{area.area_id}"/>
+        </h:selectOneMenu>
+
+        <p:commandButton value="Crear usuario" class="button" action="#{usersManagementBean.crearUsuario()}" ajax="false"/>
+
+    </h:form>
+
+</ui:composition>
+

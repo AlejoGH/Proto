@@ -5,10 +5,10 @@
  */
 package entidades.users;
 
+import entidades.preocupational_test.PreocupationalTest;
 import facade.LoginFacade;
 import java.io.Serializable;
 import javax.ejb.EJB;
-import javax.faces.application.FacesMessage;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.SessionScoped;
 import javax.faces.context.FacesContext;
@@ -46,11 +46,18 @@ public class UserBean implements Serializable {
             return "/secured/principal.xhtml";// Redireccion
         } else {
             LOGGER1.info("Credenciales inválidas '{}'", userNick);
-            
+
             util.Utilidades.imprimir_msg_advertencia("Credenciales inválidas",
                     "Usuario o contraseña incorrectos");
             return null;
         }
+    }
+
+    public PreocupationalTest obtenerPreo() {
+        if (currentUser.getPreocupationalTests() != null && !currentUser.getPreocupationalTests().isEmpty()) {
+            return currentUser.getPreocupationalTests().get(0);
+        }
+        return new PreocupationalTest();
     }
 
     //Metodo que valida que la clave ingresada corresponda a la clave del usuario
