@@ -16,6 +16,7 @@
                         <i class="fa fa-file-excel-o">Exportar</i>
                         <p:dataExporter type="xls" target="tbl1" fileName="Personas" />
                     </h:commandLink>
+                    <p:commandButton value="Enviar Correos" action="#{QuerysBean.enviarCorreoNotResolveTodays()}"/>
                     <p:dataTable id="tbl1" value="#{QuerysBean.notResolveTodays}" var="gente">
                         <p:column headerText="Nombre" filterBy="#{gente.name}">
                             <p:outputLabel value="#{gente.name}"/>
@@ -29,6 +30,7 @@
                         <i class="fa fa-file-excel-o">Exportar</i>
                         <p:dataExporter type="xls" target="tbl2" fileName="Personas" />
                     </h:commandLink>
+                    <p:commandButton value="Enviar Correos" action="#{QuerysBean.enviarCorreoResolveFirstForm()}"/>
                     <p:dataTable id="tbl2" value="#{QuerysBean.notResolveFirstForm}" var="gente1">
                         <p:column headerText="Nombre" filterBy="#{gente1.name}">
                             <p:outputLabel value="#{gente1.name}"/>

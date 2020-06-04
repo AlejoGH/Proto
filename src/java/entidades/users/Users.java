@@ -46,6 +46,7 @@ public class Users implements Serializable {
     private String nickname;
     private String password;
     private String cc;
+    private String mail;
 
     @ManyToOne
     @JoinColumn(name = "rol_id")
@@ -279,6 +280,20 @@ public class Users implements Serializable {
      */
     public void setCc(String cc) {
         this.cc = cc;
+    }
+
+    /**
+     * @return the mail
+     */
+    public String getMail() {
+        return mail;
+    }
+
+    /**
+     * @param mail the mail to set
+     */
+    public void setMail(String mail) {
+        this.mail = mail;
     }
 
 }

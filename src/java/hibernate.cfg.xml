@@ -58,5 +58,6 @@ Contributor(s):
     <mapping class="entidades.preocupational_test.PreocupationalTest"/>
     <mapping class="entidades.querys.notResolvetoday.NotResolveToday"/>
     <mapping class="entidades.querys.notpreocupational.NotPreocupational"/>
+    <mapping class="entidades.variables_entorno_correo.VariableEntornoCorreo"/>
   </session-factory>
 </hibernate-configuration>

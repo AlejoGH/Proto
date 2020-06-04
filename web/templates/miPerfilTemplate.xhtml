@@ -25,6 +25,8 @@
                 <p:outputLabel value="#{UserBean.currentUser.number}"/>
                 <p:outputLabel value="Dirección"/>
                 <p:outputLabel value="#{UserBean.currentUser.adress}"/>
+                <p:outputLabel value="E-Mail"/>
+                <p:outputLabel value="#{UserBean.currentUser.mail}"/>
             </p:panelGrid>
             <p:commandButton value="Guardar cambios" class="button" update="MiPerfil" style="width: 30% !important" action="#{miProfileBean.guardarInfor(UserBean.currentUser)}" />
             <hr class="sidebar-divider my-0" />

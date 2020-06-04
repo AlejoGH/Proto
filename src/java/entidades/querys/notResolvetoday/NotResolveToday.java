@@ -31,6 +31,8 @@ public class NotResolveToday implements Serializable {
     private Integer user_id;
 
     private String name;
+    
+    private String correo;
 
     /**
      * @return the user_id
@@ -58,5 +60,19 @@ public class NotResolveToday implements Serializable {
      */
     public void setName(String name) {
         this.name = name;
+    }
+
+    /**
+     * @return the correo
+     */
+    public String getCorreo() {
+        return correo;
+    }
+
+    /**
+     * @param correo the correo to set
+     */
+    public void setCorreo(String correo) {
+        this.correo = correo;
     }
 }
