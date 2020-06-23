@@ -8,11 +8,11 @@
     xmlns:f="http://xmlns.jcp.org/jsf/core"
     xmlns:jsf="http://xmlns.jcp.org/jsf">
 
-    <p:panel header="Mi Perfil" style="padding-bottom: 100px" rendered="#{contentController.activePage == 1 and contentController.isPreoupationalReady}">
+    <p:panel style="padding-bottom: 100px" rendered="#{contentController.activePage == 1 and contentController.isPreoupationalReady}">
         <h:form id = "MiPerfil">
             <p:growl id="growl1" showDetail="true" sticky="true" />  
-            <h1>#{UserBean.currentUser.name}</h1>
-            <hr class="sidebar-divider my-0"/>
+            <h1 style="text-align: center">#{UserBean.currentUser.name}</h1>
+            <hr class="sidebar-divider my-0" style="background: #ff3232"/>
             <h2>Datos personales</h2>
             <p:panelGrid columns="4"  style="width: 100%">
                 <p:outputLabel value="Cargo"/>
@@ -28,10 +28,11 @@
                 <p:outputLabel value="E-Mail"/>
                 <p:outputLabel value="#{UserBean.currentUser.mail}"/>
             </p:panelGrid>
-            <p:commandButton value="Guardar cambios" class="button" update="MiPerfil" style="width: 30% !important" action="#{miProfileBean.guardarInfor(UserBean.currentUser)}" />
-            <hr class="sidebar-divider my-0" />
-            <h2 style="padding-top: 50px">Personas con usted en casa</h2>
-            <p:outputLabel value="Personas con usted en casa"/>
+            <div align="center" style="padding-top: 15px">
+                <p:commandButton value="Guardar cambios" class="button" update="MiPerfil" action="#{miProfileBean.guardarInfor(UserBean.currentUser)}"  />
+            </div>
+            <hr class="sidebar-divider my-0" style="background: #ff3232"/>
+            <h2>Personas con usted en casa</h2>
             <p:dataTable emptyMessage="No ha agregado ninguno" editable="true"  value="#{UserBean.currentUser.homePeoples}" var="familiar" id="familiars">   
 
                 <p:ajax event="rowEdit" update="familiars MiPerfil:growl1" listener="#{HomePeopleBean.saveUpdate(familiar)}" />
@@ -73,12 +74,14 @@
                     <p:commandButton value="-" action="#{HomePeopleBean.deleteFamiliar(familiar, UserBean.currentUser)}" update="familiars :MiPerfil:growl1"/>
                 </p:column>
                 <f:facet name="footer">
-                    <p:commandButton value="Agregar nuevo integrate" class="button" action="#{HomePeopleBean.addNewFamiliar(UserBean.currentUser)}" update="familiars :MiPerfil:growl1"/>
+                    <div align="center" style="padding-top: 15px">
+                        <p:commandButton value="Agregar nuevo integrate" class="button" action="#{HomePeopleBean.addNewFamiliar(UserBean.currentUser)}" update="familiars :MiPerfil:growl1"/>
+                    </div>
                 </f:facet>
             </p:dataTable>
 
-            <hr class="sidebar-divider my-0" style="padding-top: 20px"/>
-            <p:outputLabel value="Antecedentes médicos del trabajador(Marque los antecedentes que haya tenido)" />
+            <hr class="sidebar-divider my-0" style="padding-top: 20px; background: #ff3232"/>
+            <h2>Antecedentes médicos del trabajador(Marque los antecedentes que haya tenido)</h2>
 
             <p:panelGrid columns="6" style="width: 100%">
                 <p:outputLabel value="Antes"/>
@@ -141,11 +144,8 @@
                 <p:outputLabel value="Medicamentos que está tomando actualmente:"/>
                 <p:inputText value="#{UserBean.obtenerPreo().preocupational_test_medicamentos}"/>
             </p:panelGrid>
-            <hr class="sidebar-divider my-0"/>
-
-            <hr class="sidebar-divider my-0" style="padding-top: 20px"/>
-            <p:outputLabel value="SIGNOS Y SINTOMAS AL INGRESO Y VALORACION :  Marque con Sí los  que haya  presentado en los últimos 15 días " />
-            <hr class="sidebar-divider my-0"/>                         
+            <hr class="sidebar-divider my-0" style="background: #ff3232"/>
+            <h2>SIGNOS Y SINTOMAS AL INGRESO Y VALORACION :  Marque con SI los  que haya  presentado en los últimos 15 días</h2>                
 
             <p:panelGrid columns="3" style="width: 100%">
 
@@ -171,9 +171,9 @@
             </p:panelGrid>
 
 
-            <hr class="sidebar-divider my-0" style="padding-top: 20px"/>
-            <p:outputLabel value="SEGUIMIENTO DEL MEDIO EN QUE SE ENCUENTRA EL TRABAJADOR" />
-            <hr class="sidebar-divider my-0"/>
+            <hr class="sidebar-divider my-0" style="padding-top: 20px; background: #ff3232"/>
+
+            <h2>SEGUIMIENTO DEL MEDIO EN QUE SE ENCUENTRA EL TRABAJADOR</h2>
             <p:panelGrid columns="2">
                 <p:outputLabel value="Marque si cumple con las condiciones"/>
                 <p:outputLabel value="Observaciones"/>                                
@@ -195,18 +195,16 @@
                 <p:outputLabel value="#{UserBean.obtenerPreo().preocupational_test_p8_observation}"/>
             </p:panelGrid>
 
-            <hr class="sidebar-divider my-0" style="padding-top: 20px"/>
-            <p:outputLabel value="TRANSPORTE" />
-            <hr class="sidebar-divider my-0"/>
+            <hr class="sidebar-divider my-0" style="padding-top: 20px; background: #ff3232"/>
+            <h2>Medios de transporte</h2>
             <p:panelGrid columns="2" style="width: 100%">
                 <p:outputLabel  value="1.- ¿Qué transporte(s) usa para movilizarse hacia la oficina y casa?"/>
                 <p:outputLabel value="#{UserBean.obtenerPreo().preocupational_test_p1_transport}"/>
                 <p:outputLabel value="2.- ¿Cuál medio de transporte alternativo podría usar? "/>
                 <p:outputLabel value="#{UserBean.obtenerPreo().preocupational_test_p2_transport}"/>
             </p:panelGrid>
-            <hr class="sidebar-divider my-0" style="padding-top: 20px"/>
-            <p:outputLabel value="COMPROMISOS ADQUIRIDOS"/>
-            <hr class="sidebar-divider my-0"/>
+            <hr class="sidebar-divider my-0" style="padding-top: 20px; background: #ff3232"/>
+            <h2>Compromisos adquiridos</h2>
             <p:panelGrid columns="2">
                 <p:outputLabel value="MEDIDAS DE PREVENCIÓN"/>
                 <p:outputLabel value="ACCIONES "/>

@@ -62,7 +62,7 @@ public class UsersManagementBean implements Serializable {
             }
         }
 
-        newUser.setPassword(BCrypt.hashpw("fondoaccion", BCrypt.gensalt()));
+        newUser.setPassword(BCrypt.hashpw(newUser.getCc(), BCrypt.gensalt()));
 
         if (userFacade.SaveNewUser(newUser)) {
             util.Utilidades.imprimir_msg("Hecho!", "Usuario creado");

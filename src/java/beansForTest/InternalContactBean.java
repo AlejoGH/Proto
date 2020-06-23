@@ -68,7 +68,7 @@ public class InternalContactBean implements Serializable {
 
     public void deleteInternalContact(InternalContact internalContact, Users users) {
         if (internalContactFadace.DeleteInternalContact(internalContact)) {
-            users.getHomePeoples().remove(internalContact);
+            users.getInternalContacts().remove(internalContact);
             util.Utilidades.imprimir_msg("Hecho!", "Registro eliminado");
         } else {
             util.Utilidades.imprimir_msg("Error", "No se pudo eliminar el registro");

@@ -5,12 +5,12 @@ import entidades.areas.Areas;
 import entidades.rol.Rol;
 import entidades.rol.RolFacade;
 import java.io.Serializable;
+import java.util.Date;
 import java.util.List;
 import javax.annotation.PostConstruct;
 import javax.ejb.EJB;
 import javax.faces.bean.ApplicationScoped;
 import javax.faces.bean.ManagedBean;
-
 
 @ApplicationScoped
 
@@ -31,6 +31,19 @@ public class ConstantesBean implements Serializable {
         System.out.println("Cargando Constantes");
         roles = rolFacade.getRoles();
         areas = areaFacade.getAreas();
+    }
+
+    public boolean isToday(Date date) {
+        Date aux = new Date();
+        if (date != null) {
+            if (date.getYear() == aux.getYear()
+                    && date.getMonth() == aux.getMonth()
+                    && date.getDate() == aux.getDate()) {
+                return true;
+            }
+            return false;
+        } 
+        return true;
     }
 
     /**

@@ -7,29 +7,34 @@
     xmlns:h="http://xmlns.jcp.org/jsf/html"
     xmlns:f="http://xmlns.jcp.org/jsf/core"
     xmlns:jsf="http://xmlns.jcp.org/jsf">
-    <p:panel header="Contactos Internos" style="padding-bottom: 100px" rendered="#{contentController.activePage == 3}">
+    <p:panel style="padding-bottom: 100px" rendered="#{contentController.activePage == 3}">
+        <h1 style="text-align: center">Contactos Internos</h1>
+        <hr class="sidebar-divider my-0" style="background: #ff3232"/>
         <h:form id = "ContInterno" >
-            <b>Objetivo:</b> Registrar  las personas con las que tiene contacto durante la cuarentena para establecer el nexo epidemiológico en caso de enfermedad por el COVID 19
-            <br/>
-            <div style="padding-top: 30px">
-                <p:panelGrid>
-                    <b><p:outputLabel value="Definiciones"/></b>
-                    <br/>
-                    <b>Contacto:</b> Es la interaccion  entre personas en un espacio de 2 metros o menos de distancia, durante un tiempo mayor a 15 minutos, o contacto directo con secreciones de un caso probable o confirmado  de enfermedad por COVID 19
-                    <br/>
-                    <b>Medidas de Bioseguridad:</b> Son las acciones de protección que debemos practicar para prevenir el contagio tales como: lavado de manos, uso de tapabocas, limpieza y desinfección de artículos y superficies, lavado de ropa de calle, desinfección de calzado etc. 
-                    <br/>
-                    <b>Contacto Interno:</b> Se refiere a las personas que están con usted en casa durante el periodo de emergencia sanitaria.
-                    <br/>
-
-                </p:panelGrid>
+            <div style="font-size: 17px">
+                <b>Objetivo:</b> Registrar  las personas con las que tiene contacto durante la cuarentena para establecer el nexo epidemiológico en caso de enfermedad por el COVID 19
+                <br/>
+                <div style="padding-top: 15px">
+                    <p:panelGrid>
+                        <h2>Definiciones</h2>
+                        <br/>
+                        <p align="justify"><b>Contacto:</b> Es la interaccion  entre personas en un espacio de 2 metros o menos de distancia, durante un tiempo mayor a 15 minutos, o contacto directo con secreciones de un caso probable o confirmado  de enfermedad por COVID 19
+                            <br/>
+                            <b>Medidas de Bioseguridad:</b> Son las acciones de protección que debemos practicar para prevenir el contagio tales como: lavado de manos, uso de tapabocas, limpieza y desinfección de artículos y superficies, lavado de ropa de calle, desinfección de calzado etc. 
+                            <br/>
+                            <b>Contacto Interno:</b> Se refiere a las personas que están con usted en casa durante el periodo de emergencia sanitaria.
+                            <br/>
+                        </p>
+                        <hr class="sidebar-divider my-0" style="background: #ff3232"/>
+                    </p:panelGrid>
+                </div>
             </div>
 
 
 
             <p:growl id="growl2" showDetail="true" sticky="true" />  
 
-            <p:commandButton class="button" value="Agregar Registro" action="#{InternalContactBean.addNewInternalContact(UserBean.currentUser)}" update="ContInterno"/>
+
             <p:dataTable value="#{UserBean.currentUser.internalContacts}" style="padding-top: 30px" var="internal" editable="true" id="tbCi">
 
                 <p:ajax event="rowEdit" update="ContInterno:growl2 tbCi" listener="#{InternalContactBean.saveUpdate(internal, UserBean.currentUser)}" />
@@ -53,15 +58,15 @@
 
                 <p:column headerText="Fecha">
                     <p:cellEditor>
-                        <f:facet name="output"> <p:outputLabel value="#{internal.internal_contact_date}"/></f:facet>
-                        <f:facet name="input"> <p:outputLabel value="#{internal.internal_contact_date}"/></f:facet>
+                        <f:facet name="output"> <p:outputLabel style="color: #000" value="#{internal.internal_contact_date}"/></f:facet>
+                        <f:facet name="input"> <p:outputLabel style="color: #000" value="#{internal.internal_contact_date}"/></f:facet>
                     </p:cellEditor>
                 </p:column>
                 <p:column headerText="Nombre Contacto">
                     <p:cellEditor>
-                        <f:facet name="output"> <p:outputLabel value="#{internal.internal_contact_home_people_id.home_people_name}"/></f:facet>
-                        <f:facet name="input">
-                            <h:selectOneMenu value="#{InternalContactBean.home_people_id}">
+                        <f:facet name="output"> <p:outputLabel style="color: #000" value="#{internal.internal_contact_home_people_id.home_people_name}"/></f:facet>
+                        <f:facet name="input" >
+                            <h:selectOneMenu style="color: #000" value="#{InternalContactBean.home_people_id}">
                                 <f:selectItems var="homepeople" value="#{UserBean.currentUser.homePeoples}" itemLabel="#{homepeople.home_people_name}" itemValue="#{homepeople.home_people_id}"/>
                             </h:selectOneMenu>
                         </f:facet>
@@ -122,10 +127,18 @@
                 </p:column>
                 <p:column style="width:35px">
                     <p:rowEditor />
+                    <p:commandLink style="color: #000;" action="#{InternalContactBean.deleteInternalContact(internal,  UserBean.currentUser)}"
+                                   update="ContInterno:growl2 tbCi" 
+                                   rendered="#{constantesBean.isToday(internal.internal_contact_date)}">
+                        <i class="fa fa-trash"/>
+                    </p:commandLink>
                 </p:column>
-            </p:dataTable>        
-
+            </p:dataTable>
+            <div align="center" style="padding-top: 15px">
+                <p:commandButton class="button" value="Agregar Registro" action="#{InternalContactBean.addNewInternalContact(UserBean.currentUser)}" update="ContInterno"/>
+            </div>
         </h:form>
+        <hr class="sidebar-divider my-0" style="background: #ff3232"/>
     </p:panel>
 </ui:composition>
 

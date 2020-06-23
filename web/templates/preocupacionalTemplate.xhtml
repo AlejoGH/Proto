@@ -8,11 +8,12 @@
     xmlns:f="http://xmlns.jcp.org/jsf/core"
     xmlns:jsf="http://xmlns.jcp.org/jsf">
 
-    <p:panel header="Encuesta Salud Fondo Acción">
+    <p:panel>
 
         <h:form id = "Pre-ocupacional" rendered="#{!contentController.isPreoupationalReady}">
-            <p:growl id="growl" showDetail="true" sticky="true" />  
-            <h3><h:outputText value="Encuesta Condiciones de Salud"/></h3>
+            <p:growl id="growl" showDetail="true" sticky="true" />
+            <h1 align="center">Encuesta Condiciones de Salud</h1>
+
             <p:panelGrid columns="4"  style="width: 100%">
                 <p:outputLabel value="Nombre"/>
                 <p:inputText value="#{UserBean.currentUser.name}" style="width: 100%"/>
@@ -24,7 +25,6 @@
                 <h:selectOneMenu  value="#{PreocupationalBean.areaSelect}" style="width: 100%">
                     <f:selectItems value="#{constantesBean.areas}" var="areaa" itemLabel="#{areaa.area_nombre}" itemValue="#{areaa.area_id}" />
                 </h:selectOneMenu>
-
                 <p:outputLabel value="Celular"/>
                 <p:inputText value="#{UserBean.currentUser.number}" style="width: 100%"/>
                 <p:outputLabel value="Dirección"/>
@@ -32,9 +32,9 @@
                 <p:outputLabel value="E-Mail"/>
                 <p:inputText value="#{UserBean.currentUser.mail}" style="width: 100%"/>
             </p:panelGrid>
-            <hr/>
+            <hr class="sidebar-divider my-0" style="background: #ff3232"/>
             <div  style="width: 100%" align="center">
-                <p:outputLabel value="Personas con usted en casa" style="font-size: 20px"/>
+                <h2>Personas con usted en casa</h2>
                 <p:dataTable reflow="true" 
                              emptyMessage="No ha agregado ningún integrante" 
                              editable="true"  
@@ -94,14 +94,15 @@
                         <p:commandButton value="-" action="#{HomePeopleBean.deleteFamiliar(familiar, UserBean.currentUser)}" update="familiars :Pre-ocupacional:growl"/>
                     </p:column>
                     <f:facet name="footer">
-                        <p:commandButton value="Agregar nuevo integrante" class="button" action="#{HomePeopleBean.addNewFamiliar(UserBean.currentUser)}" update="familiars :Pre-ocupacional:growl"/>
+                        <div align="center" style="padding-top: 15px">
+                            <p:commandButton value="Agregar nuevo integrante" class="button" action="#{HomePeopleBean.addNewFamiliar(UserBean.currentUser)}" update="familiars :Pre-ocupacional:growl"/>
+                        </div>
                     </f:facet>
                 </p:dataTable>
 
 
-                <hr class="sidebar-divider my-0" style="padding-top: 20px"/>
-                <p:outputLabel value="Antecedentes médicos del trabajador(Marque los antecedentes que haya tenido)" />
-
+                <hr class="sidebar-divider my-0" style="background: #ff3232"/>
+                <h2>Antecedentes médicos del trabajador(Marque los antecedentes que haya tenido)</h2>
                 <p:panelGrid columns="6" style="width: 100%">
                     <p:outputLabel value="Antes"/>
                     <p:outputLabel value="Actualmente"/>
@@ -162,9 +163,9 @@
                     <p:outputLabel value="Medicamentos que está tomando actualmente:" style="width: 100%"/>
                     <p:inputText value="#{PreocupationalBean.preocupationalTest.preocupational_test_medicamentos}" style="width: 100%"/>
                 </p:panelGrid>
-                <hr class="sidebar-divider my-0"/>
-                <p:outputLabel value="SIGNOS Y SÍNTOMAS AL INGRESO Y VALORACIÓN : Marque los síntomas que haya presentado en los últimos 15 días " />
+                <hr class="sidebar-divider my-0" style="background: #ff3232"/>
 
+                <h2>SIGNOS Y SÍNTOMAS AL INGRESO Y VALORACIÓN : Marque los síntomas que haya presentado en los últimos 15 días</h2>
                 <p:panelGrid columns="3" style="width: 100%">
 
                     <p:outputLabel value="TEMPERATURA CUANTIFICADA A LA HORA DE LA VALORACIÓN"/>
@@ -187,8 +188,9 @@
                     <p:inputText  placeholder="Otros" value="#{PreocupationalBean.preocupationalTest.preocupational_test_otros_sintomas}"/>
 
                 </p:panelGrid>
-                <hr class="sidebar-divider my-0" style="padding-top: 20px"/>
-                <p:outputLabel value="SEGUIMIENTO DEL MEDIO EN QUE SE ENCUENTRA EL TRABAJADOR" />
+                <hr class="sidebar-divider my-0" style="background: #ff3232"/>
+
+                <h2>Seguimiento del medio en el que se encuentra el trabajador</h2>
                 <p:panelGrid columns="2">
                     <p:outputLabel value="Marque si cumple con las condiciones"/>
                     <p:outputLabel value="Observaciones"/>                                
@@ -210,16 +212,16 @@
                     <p:inputText value="#{PreocupationalBean.preocupationalTest.preocupational_test_p8_observation}"/>
                 </p:panelGrid>
 
-                <hr class="sidebar-divider my-0" style="padding-top: 20px"/>
-                <p:outputLabel value="TRANSPORTE" />
+                <hr class="sidebar-divider my-0" style="background: #ff3232"/>
+                <h2>Transporte</h2>
                 <p:panelGrid columns="2" style="width: 100%">
                     <p:outputLabel  value="1.- ¿Qué transporte(s) usa para movilizarse hacia la oficina y casa?" style="width: 100%"/>
                     <p:inputText value="#{PreocupationalBean.preocupationalTest.preocupational_test_p1_transport}" style="width: 100%"/>
                     <p:outputLabel value="2.- ¿Cuál medio de transporte alternativo podría usar? "/>
                     <p:inputText value="#{PreocupationalBean.preocupationalTest.preocupational_test_p2_transport}" style="width: 100%"/>
                 </p:panelGrid>
-                <hr class="sidebar-divider my-0" style="padding-top: 20px"/>
-                <p:outputLabel value="COMPROMISOS ADQUIRIDOS"/>
+                <hr class="sidebar-divider my-0" style="background: #ff3232"/>
+                <h2>Compromisos adquiridos</h2>
                 <p:panelGrid columns="2">
                     <p:outputLabel value="MEDIDAS DE PREVENCIÓN"/>
                     <p:outputLabel value="ACCIONES "/>

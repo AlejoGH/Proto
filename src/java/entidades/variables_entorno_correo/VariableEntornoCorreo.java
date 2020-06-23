@@ -3,6 +3,7 @@ package entidades.variables_entorno_correo;
 import java.io.Serializable;
 import javax.persistence.Entity;
 import javax.persistence.Id;
+import javax.persistence.Table;
 import org.hibernate.annotations.NamedQueries;
 import org.hibernate.annotations.NamedQuery;
 
@@ -20,6 +21,8 @@ import org.hibernate.annotations.NamedQuery;
 
 }
 )
+
+@Table(name = "variables_entorno_correo")
 public class VariableEntornoCorreo implements Serializable {
 
     @Id

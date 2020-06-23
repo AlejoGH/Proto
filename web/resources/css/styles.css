@@ -25,8 +25,8 @@ body{
     -o-border-radius: 25px;
     -ms-border-radius: 25px;
     top: 20%;height: 60%;  margin: 0;
-    position: absolute; background-color: #008080; width: 50%;
-    left: 25%;  border-radius: 25px; border: 1px solid cadetblue;
+    position: absolute; background-color: #ff3232; width: 50%;
+    left: 25%;  border-radius: 25px; border: 1px solid #ff3232;
     box-shadow: 2px 3px;
 }
 
@@ -42,22 +42,20 @@ body{
 }
 .column2 a img{
 
-    top: 50%;
-    margin-top: 25%;
+    top: 22%;
+    margin-top: 14%;
     text-align: center;
 
 }
 
 .input{
-
-    width: 80%;
+    width: 65%;
 }
 
 .form{
     position: absolute;
-    top: 50%;
-    margin-top: -15%;
-    text-align: center;
+    top: 35%;
+
     width: 100%;
 }
 
@@ -77,8 +75,8 @@ hr{
     left: 0px;
     width: 250px;
     height: 100%;
-    background: #008080;
-    transition: all .5s ease;
+    background: #ff3232;
+    transition: all .8s ease;
 }
 
 .sidebar header{
@@ -92,8 +90,8 @@ hr{
 }
 
 .btn-sidebar{
-    background-color: #008080 !important;
-    border-color: #008080 !important;
+    background-color: #ff3232 !important;
+    border-color: #ff3232 !important;
     color: white !important;
     box-sizing: border-box;
     border: 1px solid rgba(255,255,255,.1) ;
@@ -109,12 +107,13 @@ hr{
 }
 
 .button{
-    background: #008080 !important;
+    background: #ff3232 !important;
     color: #fefefe !important;
     border-radius: 10px !important;  
     border-bottom-color: #000000 !important;
     border-bottom-width: .5px;
     border-right-color: #000000 !important;
+    
 }
 
 .button :hover{
@@ -154,7 +153,7 @@ label #btns{
     font-size: 35px;
     color: #000000;
     padding: 6px 9px;
-    transition: all .5s;
+    transition: all .8s;
     opacity: 0;
 
     pointer-events: none;
@@ -167,7 +166,7 @@ label #cancela{
     font-size: 20px;
     color: white;
     padding: 4px 9px;
-    transition: all .5s ease;
+    transition: all .8s ease;
     position: fixed;
 }
 
@@ -193,7 +192,7 @@ label #cancela{
     background-position: center;
     background-size: cover;
     height: 100vh;
-    transition: all .5s;
+    transition: all .9s;
     margin-left: 250px;
 }
 

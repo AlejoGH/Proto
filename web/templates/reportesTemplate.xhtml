@@ -8,9 +8,11 @@
     xmlns:f="http://xmlns.jcp.org/jsf/core"
     xmlns:jsf="http://xmlns.jcp.org/jsf">
 
-    <p:panel header="Reportes" rendered="#{contentController.activePage == 6}">
+    <p:panel rendered="#{contentController.activePage == 6}">
+        <h1 style="text-align: center">Reportes</h1>
         <p:tabView >
             <p:tab title="No han resuelto Registro diario">
+                <hr class="sidebar-divider my-0" style="background: #ff3232"/>
                 <h:form>
                     <h:commandLink>
                         <i class="fa fa-file-excel-o">Exportar</i>
@@ -25,6 +27,7 @@
                 </h:form>
             </p:tab>
             <p:tab title="No han resuelto Encuesta de condiciones de salud">
+                <hr class="sidebar-divider my-0" style="background: #ff3232"/>
                 <h:form>
                     <h:commandLink>
                         <i class="fa fa-file-excel-o">Exportar</i>
@@ -38,11 +41,22 @@
                     </p:dataTable>
                 </h:form>
             </p:tab>
+
+            <p:tab title="Graficos">
+                <hr class="sidebar-divider my-0" style="background: #ff3232"/>
+                <h:form>
+                    
+                    <h:panelGrid id="hpgGraficoTemperaturaPromedioHoy">
+                        <div align="center">
+                            <p:chart type="line" model="#{QuerysGraficosBean.lineaTemperaturaPromedio}" style="width: 900px; height: 500px; " rendered="#{QuerysGraficosBean.lineaTemperaturaPromedio != null}"/>                            
+                        </div>
+                        <div style="align-content: center">
+                            <p:chart type="line" model="#{QuerysGraficosBean.lineaAreas}" style="width: 900px; height: 500px; " rendered="#{QuerysGraficosBean.lineaTemperaturaPromedio != null}"/>                            
+                        </div>
+                    </h:panelGrid>
+                </h:form>
+            </p:tab>
         </p:tabView>
-
-
     </p:panel>
-
-
 </ui:composition>
 

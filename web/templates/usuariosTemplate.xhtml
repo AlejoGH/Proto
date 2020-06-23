@@ -10,27 +10,40 @@
     <h:head>
         <h:outputStylesheet library="css" name="styles.css"/>
     </h:head>
-
-    <h:form id = "CrearUsuario" rendered="#{contentController.activePage == 5}">
-        <p:growl id="growl2" showDetail="true" sticky="true" />  
-        <p:outputLabel value="Nombre completo"/>
-        <p:inputText value="#{usersManagementBean.newUser.name}"/>
-        <p:outputLabel value="Usuario"/>
-        <p:inputText value="#{usersManagementBean.newUser.nickname}"/>
-        <p:outputLabel value="Identifiación"/>
-        <p:inputText value="#{usersManagementBean.newUser.cc}"/>
-        <p:outputLabel value="Rol"/>
-        <h:selectOneMenu value="#{usersManagementBean.rol_id}">
-            <f:selectItems value="#{constantesBean.roles}" var="rol" itemLabel="#{rol.rol_name}" itemValue="#{rol.rol_id}"/>
-        </h:selectOneMenu>
-        <p:outputLabel value="Area"/>
-        <h:selectOneMenu value="#{usersManagementBean.area_id}">
-            <f:selectItems value="#{constantesBean.areas}" var="area" itemLabel="#{area.area_nombre}" itemValue="#{area.area_id}"/>
-        </h:selectOneMenu>
-
-        <p:commandButton value="Crear usuario" class="button" action="#{usersManagementBean.crearUsuario()}" ajax="false"/>
-
-    </h:form>
-
+    <p:panel style="padding-bottom: 100px">
+        <h:form id = "CrearUsuario" rendered="#{contentController.activePage == 5}">
+            <h1 style="text-align: center"> Creación de nuevos usuarios </h1>
+            <hr class="sidebar-divider my-0" style="background: #ff3232"/>
+            <p:growl id="growl2" showDetail="true" sticky="true" />  
+            <div align="center" style="padding-top: 15px">                
+                <p:outputLabel value="Nombre completo" style="padding-right: 3%"/>
+                <p:inputText value="#{usersManagementBean.newUser.name}"/>
+            </div>
+            <div align="center" style="padding-top: 15px">                
+                <p:outputLabel value="Usuario" style="padding-right: 8.5%"/>
+                <p:inputText value="#{usersManagementBean.newUser.nickname}"/>
+            </div>
+            <div align="center" style="padding-top: 15px">                
+                <p:outputLabel value="Identifiación" style="padding-right: 6%"/>
+                <p:inputText value="#{usersManagementBean.newUser.cc}"/> 
+            </div>
+            <div align="center" style="padding-top: 15px">                
+                <p:outputLabel value="Rol" style="padding-right: 3% "/>
+                <h:selectOneMenu value="#{usersManagementBean.rol_id}">
+                    <f:selectItems value="#{constantesBean.roles}" var="rol" itemLabel="#{rol.rol_name}" itemValue="#{rol.rol_id}"/>
+                </h:selectOneMenu>
+            </div>
+            <div align="center" style="padding-top: 15px">                
+                <p:outputLabel value="Area       "/>
+                <h:selectOneMenu value="#{usersManagementBean.area_id}">
+                    <f:selectItems value="#{constantesBean.areas}" var="area" itemLabel="#{area.area_nombre}" itemValue="#{area.area_id}"/>
+                </h:selectOneMenu>
+            </div>
+            <div align="center" style="padding-top: 50px">                
+                <p:commandButton value="Crear usuario" class="button" action="#{usersManagementBean.crearUsuario()}" ajax="false"/>
+            </div>
+            <hr class="sidebar-divider my-0" style="background: #ff3232"/>
+        </h:form>
+    </p:panel>
 </ui:composition>
 

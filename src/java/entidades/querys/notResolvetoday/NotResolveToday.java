@@ -17,14 +17,6 @@ import javax.persistence.SqlResultSetMapping;
  * @author ncabrejo
  */
 @Entity
-@SqlResultSetMapping(
-        name = "consulta1",
-        classes = @ConstructorResult(
-                targetClass = NotResolveToday.class,
-                columns = {
-                    @ColumnResult(name = "user_id")
-                    ,
-                @ColumnResult(name = "name")}))
 public class NotResolveToday implements Serializable {
 
     @Id

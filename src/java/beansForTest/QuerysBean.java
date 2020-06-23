@@ -63,19 +63,27 @@ public class QuerysBean implements Serializable {
 
     public void enviarCorreoResolveFirstForm() {
         List<String> correos = new ArrayList<>();
+        String name = "jamoralesa@correo.udistrital.edu.co";
+        correos.add(name);
         for (NotResolveToday aux : notResolveFirstForm) {
-            correos.add(aux.getCorreo());
+            if (aux.getCorreo() != null && !aux.getCorreo().equals("")) {
+                correos.add(aux.getCorreo());
+            }
         }
-        String msg = "";
+        String msg = "Hola alejo";
         correoService.enviarNotificacion(correos, "Aviso Encuesta", msg);
     }
 
     public void enviarCorreoNotResolveTodays() {
         List<String> correos = new ArrayList<>();
+        String name = "jamoralesa@correo.udistrital.edu.co";
+        correos.add(name);
         for (NotResolveToday aux : notResolveTodays) {
-            correos.add(aux.getCorreo());
+            if (aux.getCorreo() != null && !aux.getCorreo().equals("")) {
+                correos.add(aux.getCorreo());
+            }
         }
-        String msg = "";
+        String msg = "HOLA ONICHAN";
         correoService.enviarNotificacion(correos, "Aviso Encuesta", msg);
     }
 

@@ -2,7 +2,134 @@
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <ui:composition
     xmlns="http://www.w3.org/1999/xhtml"
-    xmlns:ui="http://java.sun.com/jsf/facelets">
+    xmlns:ui="http://java.sun.com/jsf/facelets"
+    xmlns:p="http://primefaces.org/ui"
+    xmlns:h="http://xmlns.jcp.org/jsf/html"
+    xmlns:f="http://xmlns.jcp.org/jsf/core"
+    xmlns:jsf="http://xmlns.jcp.org/jsf">
 
+    <p:panel rendered="#{contentController.activePage == 4}" 
+             style="padding-bottom: 200px">
+        <h1 style="text-align: center">Contactos Externos</h1>
+        <hr class="sidebar-divider my-0" style="background: #ff3232"/>
+        <h:form id = "ContExterno" >
+            <div style="font-size: 17px">
+                <b>Objetivo:</b> Registrar  las personas con las que tiene contacto durante la cuarentena para establecer el nexo epidemiológico en caso de enfermedad por el COVID 19
+                <br/>
+                <div style="padding-top: 15px">
+                    <p:panelGrid>
+                        <h2>Definiciones</h2>
+                        <br/>
+                        <p align="justify"><b>Contacto:</b> Es la interaccion  entre personas en un espacio de 2 metros o menos de distancia, durante un tiempo mayor a 15 minutos, o contacto directo con secreciones de un caso probable o confirmado  de enfermedad por COVID 19.
+                            <br/>
+                            <b>Medidas de Bioseguridad:</b> Son las acciones de protección que debemos practicar para prevenir el contagio tales como: lavado de manos, uso de tapabocas, limpieza y desinfección de artículos y superficies, lavado de ropa de calle, desinfección de calzado etc. 
+                            <br/>
+
+                            <b>Contacto externo:</b> Se refiere a las personas  con las que ha tenido interaccion fuera de casa
+                            (incluye a domiciliarios, conserjes o guardas de seguridad de su vivienda o fuera de 
+                            ella y personal  de bancos almacenes y compañeros de oficina )
+                        </p>
+                        <hr class="sidebar-divider my-0" style="background: #ff3232"/>
+                    </p:panelGrid>
+                </div>
+            </div>
+            <p:growl id="growl2" showDetail="true" sticky="true" />  
+            <div style="font-size: 17px"><p align="justify">
+                    Externo se refiere a las personas  con las que ha tenido interaccion fuera de casa
+                    (incluye a domiciliarios, conserjes o guardas de seguridad de su vivienda o fuera de 
+                    ella y personal  de bancos almacenes y compañeros de oficina )
+
+                    Marque las prácticas de bio seguridad que usted siguió durante el contacto y /o después del contacto 
+                </p></div>
+            <p:dataTable id="tbExt" value="#{UserBean.currentUser.externalContacts}" style="padding-top: 30px" var="externalContatc" editable="true">
+                <p:ajax event="rowEdit" update="ContExterno:growl2 tbExt" listener="#{ExtrenalContactBean.saveUpdate(externalContatc)}" />
+                <p:ajax event="rowEditCancel" update="ContInterno" />
+                <f:facet name="header">
+                    <div align="center"> <p:outputLabel value=" Marque las prácticas de bio seguridad que usted siguió durante el contacto y /o después del contacto"/>  </div>
+                </f:facet>
+
+                <p:column headerText="Fecha">
+                    <p:cellEditor>
+                        <f:facet name="output"> <p:outputLabel value="#{externalContatc.external_contact_date}" /></f:facet>
+                        <f:facet name="input"> 
+                            <p:calendar pattern="yyyy-MM-dd HH:mm" 
+                                        mask="true" 
+                                        value="#{externalContatc.external_contact_date}"
+                                        />
+                        </f:facet>
+                    </p:cellEditor> 
+                </p:column>
+                <p:column headerText="Lugar">
+                    <p:cellEditor>
+                        <f:facet name="output"> <p:outputLabel value="#{externalContatc.external_contact_site}" /></f:facet>
+                        <f:facet name="input"> <p:inputText value="#{externalContatc.external_contact_site}"/></f:facet>
+                    </p:cellEditor> 
+                </p:column>
+                <p:column headerText="Nombre de la persona y/ o rol con quien tuvo contacto">
+                    <p:cellEditor>
+                        <f:facet name="output"> <p:outputLabel value="#{externalContatc.external_contact_name}" /></f:facet>
+                        <f:facet name="input"> <p:inputText value="#{externalContatc.external_contact_name}"/></f:facet>
+                    </p:cellEditor> 
+                </p:column>
+                <p:column headerText="Lavado Manos">
+
+                    <p:cellEditor>
+                        <f:facet name="output"> <p:selectBooleanCheckbox value="#{externalContatc.external_contact_lavado_manos}" disabled="true"/></f:facet>
+                        <f:facet name="input"> <p:selectBooleanCheckbox value="#{externalContatc.external_contact_lavado_manos}"/></f:facet>
+                    </p:cellEditor> 
+
+
+                </p:column>
+                <p:column headerText="Uso tapabocas">
+                    <p:cellEditor>
+                        <f:facet name="output"> <p:selectBooleanCheckbox value="#{externalContatc.external_contact_tapabocas}" disabled="true"/></f:facet>
+                        <f:facet name="input"> <p:selectBooleanCheckbox value="#{externalContatc.external_contact_tapabocas}"/></f:facet>
+                    </p:cellEditor> 
+                </p:column>
+                <p:column headerText="Limpiea y desinfección">
+                    <p:cellEditor>
+                        <f:facet name="output"> <p:selectBooleanCheckbox value="#{externalContatc.external_contact_limpieza_superficies}" disabled="true"/></f:facet>
+                        <f:facet name="input"> <p:selectBooleanCheckbox value="#{externalContatc.external_contact_limpieza_superficies}"/></f:facet>
+                    </p:cellEditor> 
+                </p:column>
+                <p:column headerText="Lavado de ropa de calle">
+                    <p:cellEditor>
+                        <f:facet name="output"> <p:selectBooleanCheckbox value="#{externalContatc.external_contact_lavado_ropa}" disabled="true"/></f:facet>
+                        <f:facet name="input"> <p:selectBooleanCheckbox value="#{externalContatc.external_contact_lavado_ropa}"/></f:facet>
+                    </p:cellEditor> 
+                </p:column>
+                <p:column headerText="Desinfección de zapatos">
+                    <p:cellEditor>
+                        <f:facet name="output"> <p:selectBooleanCheckbox value="#{externalContatc.external_contact_desinfeccion_zapatos}" disabled="true"/></f:facet>
+                        <f:facet name="input"> <p:selectBooleanCheckbox value="#{externalContatc.external_contact_desinfeccion_zapatos}"/></f:facet>
+                    </p:cellEditor> 
+                </p:column>
+                <p:column headerText="Ducha">
+                    <p:cellEditor>
+                        <f:facet name="output"> <p:selectBooleanCheckbox value="#{externalContatc.external_contact_ducha}" disabled="true"/></f:facet>
+                        <f:facet name="input"> <p:selectBooleanCheckbox value="#{externalContatc.external_contact_ducha}"/></f:facet>
+                    </p:cellEditor> 
+                </p:column>
+                <p:column headerText="Otros">
+                    <p:cellEditor>
+                        <f:facet name="output"> <p:outputLabel value="#{externalContatc.external_contact_others}" /></f:facet>
+                        <f:facet name="input"> <p:inputText value="#{externalContatc.external_contact_others}"/></f:facet>
+                    </p:cellEditor> 
+                </p:column>
+                <p:column style="width:35px">
+                    <p:rowEditor />
+                    <p:commandLink  action="#{ExtrenalContactBean.deleteExternalContact(externalContatc,  UserBean.currentUser)}"
+                                    update="ContExterno:growl2 tbExt" 
+                                    rendered="#{constantesBean.isToday(externalContatc.external_contact_date)}">
+                        <i class="fa fa-trash"/>
+                    </p:commandLink>
+                </p:column>
+            </p:dataTable>
+            <div align="center" style="padding-top: 15px">
+                <p:commandButton value="Agregar Registro" class="button" action="#{ExtrenalContactBean.addNewExternalContact(UserBean.currentUser)}" update="tbExt"/>
+            </div>
+            <hr class="sidebar-divider my-0" style="background: #ff3232"/>
+        </h:form>
+    </p:panel>         
 </ui:composition>
 

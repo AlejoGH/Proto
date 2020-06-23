@@ -28,11 +28,13 @@ public class CorreoService {
             properties = System.getProperties();
             // Setup mail server
             properties.put("mail.smtp.starttls.enable", "true");
+            System.out.println(variableEntornoCorreo.getCorreo_from()+variableEntornoCorreo.getCorreo_pass());
             properties.put("mail.smtp.host", variableEntornoCorreo.getCorreo_host());
             properties.put("mail.smtp.user", variableEntornoCorreo.getCorreo_from());
             properties.put("mail.smtp.password", variableEntornoCorreo.getCorreo_pass());
             properties.put("mail.smtp.port", variableEntornoCorreo.getCorreo_port());
             properties.put("mail.smtp.auth", "true");
+            //properties.put("mail.smtp.ssl.enable", "true");
             session = Session.getDefaultInstance(properties);
         }
 
@@ -68,8 +70,10 @@ public class CorreoService {
                 System.out.println("Sent message successfully....");
             } catch (MessagingException mex) {
                 util.Utilidades.imprimir_msg("Error", "No se pudo enviar el mensaje");
+                mex.printStackTrace();
             } catch (Exception e) {
                 util.Utilidades.imprimir_msg("Error", "No se pudo enviar el mensaje");
+                e.printStackTrace();
             }
         } else {
             util.Utilidades.imprimir_msg("Error", "No hay información de correos");
